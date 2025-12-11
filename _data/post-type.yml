@@ -1,0 +1,16 @@
+art:
+  key: "art"
+  style: "theme-art"
+  tag: "ART"
+tech:
+  key: "tech"
+  style: "theme-tech"
+  tag: "TECH"
+techart:
+  key: "techart"
+  style: "theme-tech-art"
+  tag: "TECH+ART"
+game:
+  key: "game"
+  style: "theme-game"
+  tag: "GAME"

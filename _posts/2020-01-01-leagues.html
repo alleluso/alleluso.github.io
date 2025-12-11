@@ -1,0 +1,132 @@
+---
+title: "Leagues"
+date: 2020-01-01
+image: "leagues/entry.jpg"
+type: "tech"
+project: "burraco"
+software:
+- unity
+- blender
+excerpt: "Showcase of the Leagues competitive system in Burraco. Players climb through six tiers by earning points in weekly matches, with dynamic leaderboards, promotion and relegation, and visually engaging UI powered by Unity and Blender for a seamless, scalable experience."
+---
+
+<div class="row mb-4">
+  <div class="col-lg-8">
+    <p>The <strong>Leagues</strong> feature introduces a weekly competitive system where players earn points
+      through matches to
+      climb through six levels. Performance determines whether a player is promoted, stays in their current
+      league, or is relegated, with the leaderboard resetting every Monday.</p>
+
+    <div class="league-icons">
+      <div class="league-icon">
+        <div class="icon-box">
+          <img src="{{ '/assets/images/leagues/leagues_grade_shield_0.png' | relative_url }}" alt="Beginner">
+        </div>
+        <div class="detail-v1 text-center mx-auto">
+          <span class="detail-label">Beginner</span>
+        </div>
+      </div>
+      <div class="league-icon">
+        <div class="icon-box">
+          <img src="{{ '/assets/images/leagues/leagues_grade_shield_1.png' | relative_url }}" alt="Intermediate">
+        </div>
+        <div class="detail-v1 text-center mx-auto">
+          <span class="detail-label">Intermediate</span>
+        </div>
+      </div>
+      <div class="league-icon">
+        <div class="icon-box">
+          <img src="{{ '/assets/images/leagues/leagues_grade_shield_2.png' | relative_url }}" alt="Master">
+        </div>
+        <div class="detail-v1 text-center mx-auto">
+          <span class="detail-label">Master</span>
+        </div>
+      </div>
+      <div class="league-icon">
+        <div class="icon-box">
+          <img src="{{ '/assets/images/leagues/leagues_grade_shield_3.png' | relative_url }}" alt="Grand Master">
+        </div>
+        <div class="detail-v1 text-center mx-auto">
+          <span class="detail-label">Grand Master</span>
+        </div>
+      </div>
+      <div class="league-icon">
+        <div class="icon-box">
+          <img src="{{ '/assets/images/leagues/leagues_grade_shield_4.png' | relative_url }}" alt="Legend">
+        </div>
+        <div class="detail-v1 text-center mx-auto">
+          <span class="detail-label">Legend</span>
+        </div>
+      </div>
+      <div class="league-icon">
+        <div class="icon-box">
+          <img src="{{ '/assets/images/leagues/leagues_grade_shield_5.png' | relative_url }}" alt="Elite">
+        </div>
+        <div class="detail-v1 text-center mx-auto">
+          <span class="detail-label">Elite</span>
+        </div>
+      </div>
+    </div>
+
+    <p>Players compete within their own league as well as on a global scale. The <strong>League
+        Leaderboard</strong> tracks performance within a specific tier, while the <strong>Global
+        Leaderboard</strong> highlights the highest-scoring players across all leagues, showcasing the best of
+      the best.</p>
+
+    <p>The leagues implement a sophisticated UI focused mainly on leaderboard components while maintaining a
+      lightweight graphical footprint. Instead of instantiating individual game objects for every leaderboard
+      entry, which would be resource-intensive, I adopted a data-driven approach. By leveraging the <a
+        href="https://assetstore.unity.com/packages/tools/gui/enhancedscroller-36378" target="_blank"
+        rel="noopener noreferrer">EnhancedScroller</a> plugin, I efficiently recycle scroll rect elements,
+      enabling the leaderboard to dynamically render an effectively unlimited number of entries with minimal
+      performance overhead.</p>
+
+  </div>
+  
+  <div class="col-lg-4">
+    <div class="video-container-vertical">
+      <video autoplay loop muted>
+        <source src="{{ '/assets/images/leagues/leagues.mp4' | relative_url }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+</div>
+
+<div class="row align-items-center">
+  <div class="col-lg-4">
+    <div class="video-container-vertical">
+      <video autoplay loop muted>
+        <source src="{{ '/assets/images/leagues/animation.mp4' | relative_url }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+
+  <div class="col-lg-8">
+    <p>At the end of each week, players receive rewards based on their final ranking in their league. Higher
+      positions offer better rewards, which are distributed throughout the following week, incentivizing
+      consistent and competitive play.</p>
+    <p>We wanted to create visually engaging animations to present the outcome of the competition to users.
+      The animation needed to clearly convey whether the player was <strong>promoted, demoted, or remained in
+        the same
+        league</strong>. I aimed to incorporate <strong>3D elements</strong> of the league shields to as a
+      personal experiment. However,
+      integrating 3D visuals into this project wasn’t straightforward. Since the entire application is
+      UI-driven, the main camera is configured without a 3D perspective, and introducing one would require
+      significant architectural changes. </p>
+    <p>To enable 3D rendering of the shields, I first modeled each one in <strong>Blender</strong>. After
+      importing them into
+      Unity, I applied a simple unlit material to the meshes. To display them within the UI, I set up a
+      separate off-screen camera that renders the 3D models to a <code>RenderTexture</code>. This texture is
+      then assigned
+      to a <code>RawImage</code> component in the UI. This setup allows the 3D shields to be animated in the
+      scene while
+      remaining visually integrated with the existing UI system.</p>
+    <p>To complete the visual presentation, I created custom particle systems to add impactful finishing
+      effects.</p>
+  </div>
+</div>
+
+
+{% include software-list.html software=page.software %}

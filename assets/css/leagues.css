@@ -1,0 +1,43 @@
+.league-icons {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 40px 0;
+  padding: 0;
+}
+
+.league-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100px; /* fixed width */
+  text-align: center;
+}
+
+/* Fixed-size box for the icon */
+.league-icon .icon-box {
+  width: 68px;    /* fixed width for box */
+  height: 68px;   /* fixed height for box */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: visible; /* allow icon to scale bigger than box */
+  margin-bottom: 5px; /* space between icon box and text */
+}
+
+/* Default icon size */
+.league-icon .icon-box img {
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+}
+
+/* Enlarge last 3 icons with transform scale without changing box size */
+.league-icon:nth-child(n+4) .icon-box img {
+  transform: scale(1.2); /* 48px * 1.2 = ~58px */
+}
+
+.league-icon span {
+  font-size: 14px;
+  line-height: 1.2;
+}

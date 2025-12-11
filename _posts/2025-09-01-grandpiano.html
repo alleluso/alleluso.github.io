@@ -1,0 +1,218 @@
+---
+title: "Grand Piano"
+date: 2025-09-01
+image: "grandpiano/entry.jpg"
+type: "techart"
+project: "none"
+software:
+- blender
+- painter
+- unity
+- unreal
+excerpt: "Showcase of a fictional 'Armoni' grand piano 3D model inspired by the Fazioli F-212. Optimized for real‑time
+engines (Unity, Unreal) with detailed rig: lid, fallboard, music desk, keys and internal action driven via vertex
+animation textures and MIDI data."
+---
+
+<p>
+    This is a fictional grand piano inspired by the Fazioli F-212 I have created in Blender and textured in Substance
+    Painter.
+</p>
+
+<div id="render-gallery" class="carousel slide" data-ride="carousel" data-interval="5000" data-pause="false">
+    <div class="carousel-inner" style="overflow: hidden;">
+        <div class="carousel-item active">
+            <a href="{{ '/assets/images/grandpiano/1.jpg' | relative_url }}" data-fancybox="gallery1">
+                <img src="{{ '/assets/images/grandpiano/1.jpg' | relative_url }}" class="d-block w-100" alt="Grand Piano"
+                    style="object-fit: cover; cursor: pointer;">
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="{{ '/assets/images/grandpiano/2.jpg' | relative_url }}" data-fancybox="gallery1">
+                <img src="{{ '/assets/images/grandpiano/2.jpg' | relative_url }}" class="d-block w-100" alt="Grand Piano"
+                    style="object-fit: cover; cursor: pointer;">
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="{{ '/assets/images/grandpiano/3.jpg' | relative_url }}" data-fancybox="gallery1">
+                <img src="{{ '/assets/images/grandpiano/3.jpg' | relative_url }}" class="d-block w-100" alt="Grand Piano"
+                    style="object-fit: cover; cursor: pointer;">
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="{{ '/assets/images/grandpiano/4.jpg' | relative_url }}" data-fancybox="gallery1">
+                <img src="{{ '/assets/images/grandpiano/4.jpg' | relative_url }}" class="d-block w-100" alt="Grand Piano"
+                    style="object-fit: cover; cursor: pointer;">
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="{{ '/assets/images/grandpiano/5.jpg' | relative_url }}" data-fancybox="gallery1">
+                <img src="{{ '/assets/images/grandpiano/5.jpg' | relative_url }}" class="d-block w-100" alt="Grand Piano"
+                    style="object-fit: cover; cursor: pointer;">
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="{{ '/assets/images/grandpiano/6.jpg' | relative_url }}" data-fancybox="gallery1">
+                <img src="{{ '/assets/images/grandpiano/6.jpg' | relative_url }}" class="d-block w-100" alt="Grand Piano"
+                    style="object-fit: cover; cursor: pointer;">
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="{{ '/assets/images/grandpiano/7.jpg' | relative_url }}" data-fancybox="gallery1">
+                <img src="{{ '/assets/images/grandpiano/7.jpg' | relative_url }}" class="d-block w-100" alt="Grand Piano"
+                    style="object-fit: cover; cursor: pointer;">
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="{{ '/assets/images/grandpiano/8.jpg' | relative_url }}" data-fancybox="gallery1">
+                <img src="{{ '/assets/images/grandpiano/8.jpg' | relative_url }}" class="d-block w-100" alt="Grand Piano"
+                    style="object-fit: cover; cursor: pointer;">
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="{{ '/assets/images/grandpiano/9.jpg' | relative_url }}" data-fancybox="gallery1">
+                <img src="{{ '/assets/images/grandpiano/9.jpg' | relative_url }}" class="d-block w-100" alt="Grand Piano"
+                    style="object-fit: cover; cursor: pointer;">
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="{{ '/assets/images/grandpiano/10.jpg' | relative_url }}" data-fancybox="gallery1">
+                <img src="{{ '/assets/images/grandpiano/10.jpg' | relative_url }}" class="d-block w-100" alt="Grand Piano"
+                    style="object-fit: cover; cursor: pointer;">
+            </a>
+        </div>
+    </div>
+</div>
+
+<p>
+    The model is optimized for real-time use in game engines such as Unreal Engine and
+    Unity, but it's also suitable for architectural visualization or other presentation
+    projects. I focused on achieving a high level of detail in all visible components while
+    simplifying less noticeable elements, such as the connections between the keys and the
+    internal action mechanism.
+</p>
+
+<p>
+    The fictional brand name "Armoni" is inspired by the word harmony, but styled with an
+    Italian flair to convey elegance and craftsmanship.
+</p>
+
+<div class="sketchfab-embed-wrapper">
+    <iframe title="Grand Piano" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true"
+        allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport
+        execution-while-not-rendered web-share
+        src="https://sketchfab.com/models/b8b8d43ef76f4c22adea2c71b19d775b/embed?autostart=1">
+    </iframe>
+</div>
+
+<p>
+    I originally created this piano as an experiment in Unity, where I developed scripts that
+    read MIDI files and automatically animate the keys. The model includes a complete rig for
+    all major movable parts, including the lid, fallboard, and music desk. The keys and internal
+    action are animated using vertex animation textures (VATs).
+</p>
+
+<h3 class="section-title text-black mt-5 mb-3">The Animation</h3>
+
+<p>
+    I created 2 Vertex Animation Textures using the free addon for Blender called OpenVAT. One texture is used to
+    animate the keys, while the other drives the motion of the internal action components. Both textures store vertex
+    position offsets and normals to correctly "deform" the mesh. Then, to animate each key separately I have used a
+    separate 128 x 2 render texture that acts as a mask. Each pixel on the
+    X axis corresponds to a piano key. A compute shader is used to modify the render texture in real-time based on
+    incoming music events, allowing for dynamic and responsive key smoothing animations.
+</p>
+
+<div class="row">
+    <div class="col-lg-4">
+        <div class="two-column-meta-row">
+            <span class="two-column-title">Action VAT</span>
+            <span class="two-column-dimension">128<sup>2</sup></span>
+        </div>
+        <img src="{{ '/assets/images/grandpiano/vat_action.png' | relative_url }}" alt="Action VAT" class="two-column-image">
+        <p>Contains vertex data for the pedal mechanism and for the hammer and damper of the first key.</p>
+        <p>All other keys reuse the same offsets and normals of the first key, avoiding unnecessary duplication of
+            similar data.</p>
+    </div>
+    <div class="col-lg-4">
+        <div class="two-column-meta-row">
+            <span class="two-column-title">Keys VAT</span>
+            <span class="two-column-dimension">128<sup>2</sup></span>
+        </div>
+        <img src="{{ '/assets/images/grandpiano/vat_keys.png' | relative_url }}" alt="Keys VAT" class="two-column-image">
+        <p>Contains vertex data for only 14 unique keys: 12 representing the 12 notes of the chromatic scale from C
+            to B, plus the first and last key on the piano (key 1 and 88).</p>
+        <p>All other keys reuse the data from the standard octave, since their shapes are identical. However, the
+            first and last keys have unique shapes and therefore require their own vertex data.</p>
+    </div>
+    <div class="col-lg-4">
+        <div class="two-column-meta-row">
+            <span class="two-column-title">Mask RT</span>
+            <span class="two-column-dimension">128 x 2</span>
+        </div>
+        <img src="{{ '/assets/images/grandpiano/vat_rt.png' | relative_url }}" alt="Mask RT" class="two-column-image">
+        <p>The first row of the texture contains values to drive the visual state as follows:</p>
+        <ul>
+            <li><span style="color: #e53935; font-weight: bold;">Red Channel:</span> Key press with velocity value
+                (coming from
+                MIDI events).</li>
+            <li><span style="color: #43a047; font-weight: bold;">Green Channel:</span> Normalized key press (where 0.0 =
+                Key at
+                rest position and 1.0 = Key fully pressed down).</li>
+            <li><span style="color: #1e88e5; font-weight: bold;">Blue Channel:</span> Sustain value (coming from MIDI
+                events).
+            </li>
+            <li><span style="color: #757575; font-weight: bold;">Alpha Channel:</span> Hammer hit value (starts at 1
+                when the
+                key is pressed and decays to 0 over time, simulating the hammer strike).</li>
+        </ul>
+        <p>The second row of the texture is used by the compute shader for additional calculations necessary for the
+            smoothing
+            of the keys.
+        </p>
+    </div>
+</div>
+
+<div class="video-container">
+    <video autoplay loop muted>
+        <source src="{{ '/assets/images/grandpiano/video1.mp4' | relative_url }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="media-description">
+        <p>The black rectangle shows the output of the compute shader.
+            The bottom row represents the data used to drive the animation.
+            The MIDI player sends key press events to the compute shader, which updates the
+            texture and smooths the existing key presses.</p>
+    </div>
+</div>
+
+<div class="video-container">
+    <video autoplay loop muted>
+        <source src="{{ '/assets/images/grandpiano/video2.mp4' | relative_url }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="media-description">
+        <p>Here's a demo showing the values used to drive the motion of the keys and action
+            components.
+            By blending these values appropriately, I was able to achieve a realistic animation
+            of the piano's internal mechanics.</p>
+    </div>
+</div>
+
+<div class="youtube-embed-wrapper">
+    <div class="youtube-embed-container">
+        <iframe src="https://www.youtube.com/embed/yIuCAC9AC-c?si=Wtv6ZYu0O37VkKlz" title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+    <div class="media-description">
+        <p>A cinematic video showcasing the model and animation driven by shaders. The cinematic
+            is rendered in Unity 6 (URP). The animation of the keys and also the sounds are
+            generated at runtime by reading a midi file.</p>
+    </div>
+</div>
+
+{% include software-list.html software=page.software %}
+
+{% include store-list.html fab="https://fab.com/s/c5c8511e00af" %}

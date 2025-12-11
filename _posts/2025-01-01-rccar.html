@@ -1,0 +1,275 @@
+---
+title: "RC Car"
+date: 2025-01-01
+image: "rccar/entry.jpg"
+type: "techart"
+project: "none"
+software:
+- blender
+- painter
+- unreal
+- visual_studio
+excerpt: "A fully realized vintage RC racing car created for an Unreal Engine game project. Features complete 3D modeling, PBR materials, and a sophisticated procedural rig using Control Rig for dynamic suspension, wheel rotation, and steering. Includes advanced AI implementation with spline-based racing lines, obstacle avoidance, and vehicle-to-vehicle collision prevention. The model showcases realistic physics-based animation with secondary motion dynamics."
+---
+
+<p>
+    This is an RC racing car model created for a game I’m developing in Unreal Engine. The design is based on a
+    custom-built RC car my dad put together years ago, and I aimed to stay as faithful to the original as possible. The
+    vehicle is fully rigged procedurally using Unreal's Control Rig. It uses the wheeled vehicle component for the
+    vehicle handling.
+</p>
+
+<div id="render-gallery" class="carousel slide" data-ride="carousel" data-interval="5000" data-pause="false">
+    <div class="carousel-inner" style="overflow: hidden;">
+        <div class="carousel-item active">
+            <a href="{{ '/assets/images/rccar/1.jpg' | relative_url }}" data-fancybox="gallery1">
+                <img src="{{ '/assets/images/rccar/1.jpg' | relative_url }}" class="d-block w-100" alt="RC Car"
+                    style="object-fit: cover; cursor: pointer;">
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="{{ '/assets/images/rccar/2.jpg' | relative_url }}" data-fancybox="gallery1">
+                <img src="{{ '/assets/images/rccar/2.jpg' | relative_url }}" class="d-block w-100" alt="RC Car"
+                    style="object-fit: cover; cursor: pointer;">
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="{{ '/assets/images/rccar/3.jpg' | relative_url }}" data-fancybox="gallery1">
+                <img src="{{ '/assets/images/rccar/3.jpg' | relative_url }}" class="d-block w-100" alt="RC Car"
+                    style="object-fit: cover; cursor: pointer;">
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="{{ '/assets/images/rccar/4.jpg' | relative_url }}" data-fancybox="gallery1">
+                <img src="{{ '/assets/images/rccar/4.jpg' | relative_url }}" class="d-block w-100" alt="RC Car"
+                    style="object-fit: cover; cursor: pointer;">
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="{{ '/assets/images/rccar/5.jpg' | relative_url }}" data-fancybox="gallery1">
+                <img src="{{ '/assets/images/rccar/5.jpg' | relative_url }}" class="d-block w-100" alt="RC Car"
+                    style="object-fit: cover; cursor: pointer;">
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="{{ '/assets/images/rccar/6.jpg' | relative_url }}" data-fancybox="gallery1">
+                <img src="{{ '/assets/images/rccar/6.jpg' | relative_url }}" class="d-block w-100" alt="RC Car"
+                    style="object-fit: cover; cursor: pointer;">
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="{{ '/assets/images/rccar/7.jpg' | relative_url }}" data-fancybox="gallery1">
+                <img src="{{ '/assets/images/rccar/7.jpg' | relative_url }}" class="d-block w-100" alt="RC Car"
+                    style="object-fit: cover; cursor: pointer;">
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="{{ '/assets/images/rccar/8.jpg' | relative_url }}" data-fancybox="gallery1">
+                <img src="{{ '/assets/images/rccar/8.jpg' | relative_url }}" class="d-block w-100" alt="RC Car"
+                    style="object-fit: cover; cursor: pointer;">
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="sketchfab-embed-wrapper">
+    <iframe title="RC Car" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true"
+        allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport
+        execution-while-not-rendered web-share
+        src="https://sketchfab.com/models/57ce9058944440cfb642b31eba5ff334/embed?autostart=1">
+    </iframe>
+</div>
+
+<h3 class="section-title text-black mt-5 mb-3">Animation</h3>
+
+<p>
+    The vehicle is split into different parts in order to animate different components as needed. I also wanted to try a
+    modular approach in order to facilitate future customization, such as swapping out different wheels or body parts.
+    The most complex part to animate was the rig controlling the wheels and suspensions.
+</p>
+
+<div id="render-gallery" class="carousel slide" data-ride="carousel" data-interval="5000" data-pause="false">
+    <div class="carousel-inner" style="overflow: hidden;">
+        <div class="carousel-item active">
+            <a href="{{ '/assets/images/rccar/rig1.jpg' | relative_url }}" data-fancybox="gallery2">
+                <img src="{{ '/assets/images/rccar/rig1.jpg' | relative_url }}" class="d-block w-100" alt="RC Car Rig 1"
+                    style="object-fit: cover; cursor: pointer;">
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="{{ '/assets/images/rccar/rig2.jpg' | relative_url }}" data-fancybox="gallery2">
+                <img src="{{ '/assets/images/rccar/rig2.jpg' | relative_url }}" class="d-block w-100" alt="RC Car Rig 2"
+                    style="object-fit: cover; cursor: pointer;">
+            </a>
+        </div>
+    </div>
+    <div class="media-description">
+        <p>The rig has 67 bones, which drive the double wishbone suspension arms, the rotation of the wheels and
+            attached components, the steering mechanism comprising the electrical servos, and the engine shaft.</p>
+    </div>
+</div>
+
+<p>
+    Since the movement of the vehicle is physics based, I opted to animate the rig procedurally using Unreal's Control
+    Rig. To achieve this, I have created a series of functions that apply the necessary transformations to the rig bones.
+    This way, the suspension compresses and rebounds based on the terrain, the wheels rotate according to the speed, and
+    the steering mechanism turns based on player input.
+</p>
+
+<div id="render-gallery" class="carousel slide" data-ride="carousel" data-interval="5000" data-pause="false">
+    <div class="carousel-inner" style="overflow: hidden;">
+        <div class="carousel-item active">
+            <a href="{{ '/assets/images/rccar/anim1.jpg' | relative_url }}" data-fancybox="gallery3">
+                <img src="{{ '/assets/images/rccar/anim1.jpg' | relative_url }}" class="d-block w-100"
+                    alt="RC Car Rig 1" style="object-fit: cover; cursor: pointer;">
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="{{ '/assets/images/rccar/anim2.jpg' | relative_url }}" data-fancybox="gallery3">
+                <img src="{{ '/assets/images/rccar/anim2.jpg' | relative_url }}" class="d-block w-100"
+                    alt="RC Car Rig 2" style="object-fit: cover; cursor: pointer;">
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="{{ '/assets/images/rccar/anim3.jpg' | relative_url }}" data-fancybox="gallery3">
+                <img src="{{ '/assets/images/rccar/anim3.jpg' | relative_url }}" class="d-block w-100"
+                    alt="RC Car Rig 2" style="object-fit: cover; cursor: pointer;">
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="{{ '/assets/images/rccar/anim4.jpg' | relative_url }}" data-fancybox="gallery3">
+                <img src="{{ '/assets/images/rccar/anim4.jpg' | relative_url }}" class="d-block w-100"
+                    alt="RC Car Rig 2" style="object-fit: cover; cursor: pointer;">
+            </a>
+        </div>
+    </div>
+    <div class="media-description">
+        <p>The animation is entirely procedural.</p>
+    </div>
+</div>
+
+<div class="image-container">
+    <a href="{{ '/assets/images/rccar/extra2.jpg' | relative_url }}" data-fancybox="">
+        <img src="{{ '/assets/images/rccar/extra2.jpg' | relative_url }}" alt="RC Car Chassis">
+    </a>
+    <div class="media-description">
+        <p>Among the other components we have the chassis, which is where I apply secondary motion using Anim Dynamics.
+            This adds a bit of jiggle to the radio module with the antenna, fuel tubes, and the rear spoiler, enhancing
+            the realism of the model.</p>
+    </div>
+</div>
+
+<div class="image-container">
+    <a href="{{ '/assets/images/rccar/extra1.jpg' | relative_url }}" data-fancybox="">
+        <img src="{{ '/assets/images/rccar/extra1.jpg' | relative_url }}" alt="RC Car Brake Module">
+    </a>
+    <div class="media-description">
+        <p>The brake module is animated traditionally by blending between 2 keyframes, one for full throttle and one for
+            full brake.</p>
+    </div>
+</div>
+
+<div class="video-container">
+    <video autoplay loop muted>
+        <source src="{{ '/assets/images/rccar/fuel.mp4' | relative_url }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="media-description">
+        <p>I simulated the fuel movement inside the tank by using a hidden physics object. Its rotation is passed as a
+            parameter to the material, which then draws the fuel line across the mesh.</p>
+    </div>
+</div>
+
+<div class="youtube-embed-wrapper">
+    <div class="youtube-embed-container">
+        <iframe src="https://www.youtube.com/embed/1zmLlM9jWBo" title="YouTube video player" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+    <div class="media-description">
+        <p>The vehicle is controlled by AI and follows a spline path. This showcases the procedural rig in action, with
+            simulated suspension movement, steering and acceleration servos, as well as subtle "jiggle physics" applied
+            to the radio module and fuel tubes.</p>
+    </div>
+</div>
+
+<h3 class="section-title text-black mt-5 mb-3">AI Implementation</h3>
+
+<p>
+    Cars can be driven by the player or by AI. I have used Unreal's built-in AI system to create a simple behavior for
+    the RC car, allowing it to navigate the environment autonomously and race. Under normal conditions, the AI uses a
+    spline path to follow the track, adjusting its speed and steering based on incoming curves. When the spline is not
+    available or there are obstacles in the way, the AI falls back to a basic waypoint follow system, also using the nav
+    mesh. This custom logic is written in C++.
+</p>
+
+<div class="image-container">
+    <a href="{{ '/assets/images/rccar/ai1.jpg' | relative_url }}" data-fancybox="">
+        <img src="{{ '/assets/images/rccar/ai1.jpg' | relative_url }}" alt="RC Car AI Logic">
+    </a>
+    <div class="media-description">
+        <p>This behavior tree controls the logic for the RC car during a race.</p>
+    </div>
+</div>
+
+<div class="custom-block">
+    <div class="custom-accordion" id="accordion_1">
+        <div class="accordion-item">
+            <h2 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseOne"
+                    aria-expanded="false" aria-controls="collapseOne">BTTask - Vehicle Follow Spline</button>
+            </h2>
+
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion_1">
+                <div class="accordion-body">
+                    <p>This behavior tree task handles the core AI logic for RC cars to follow a racing line using
+                        splines. The system features dynamic speed adjustment based on upcoming curves, adaptive
+                        lookahead distance, stuck detection and recovery, and lane offset variation for more natural
+                        racing behavior.</p>
+                    {%- highlight cpp -%}
+                    {%- include_relative code_snippets/rccar/vehicle_follow_spline.cpp -%}
+                    {%- endhighlight -%}
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="false" aria-controls="collapseTwo">BTTask - Vehicle Obstacle Avoidance</button>
+            </h2>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion_1">
+                <div class="accordion-body">
+                    <p>This behavior tree task handles collision avoidance when the AI encounters obstacles. The system
+                        uses a 360-degree raycast detection to find the closest obstacles, then dynamically steers the
+                        vehicle to avoid collisions by choosing between forward or reverse movement based on the
+                        obstacle's position.</p>
+                    {%- highlight cpp -%}
+                    {%- include_relative code_snippets/rccar/vehicle_obstacle_avoidance.cpp -%}
+                    {%- endhighlight -%}
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree"
+                    aria-expanded="false" aria-controls="collapseThree">VehicleAIController - Dynamic Avoidance</button>
+            </h2>
+
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion_1">
+                <div class="accordion-body">
+                    <p>The AI controller also handles real-time vehicle-to-vehicle avoidance during races. It uses
+                        perception to detect nearby vehicles and dynamically adjusts steering and braking calculated
+                        before by the Behavior Tree Tasks to avoid collisions. This allows it to maintain a competitive
+                        racing behavior.</p>
+                    {%- highlight cpp -%}
+                    {%- include_relative code_snippets/rccar/vehicle_ai_controller.cpp -%}
+                    {%- endhighlight -%}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include software-list.html software=page.software %}

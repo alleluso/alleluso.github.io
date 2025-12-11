@@ -1,0 +1,28 @@
+blender:
+  name: Blender
+  icon: /assets/images/external/logo_blender.png
+  alt: Blender
+painter:
+  name: Substance Painter
+  icon: /assets/images/external/logo_painter.svg
+  alt: Substance Painter
+unity:
+  name: Unity
+  icon: /assets/images/external/logo_unity.png
+  alt: Unity
+unreal:
+  name: Unreal Engine
+  icon: /assets/images/external/logo_unreal.svg
+  alt: Unreal Engine
+visual_studio:
+  name: Visual Studio
+  icon: /assets/images/external/logo_visualstudio.png
+  alt: Visual Studio
+vscode:
+  name: Visual Studio Code
+  icon: /assets/images/external/logo_vscode.png
+  alt: Visual Studio Code
+copilot:
+  name: Copilot
+  icon: /assets/images/external/logo_copilot.png
+  alt: Copilot

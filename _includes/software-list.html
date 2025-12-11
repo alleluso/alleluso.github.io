@@ -1,0 +1,9 @@
+<h3 class="section-title text-black mb-3 mt-5">Software Used</h3>
+<ul class="list-unstyled software-list">
+  {% for key in include.software %}
+    {% assign sw = site.data.software[key] %}
+    <li>
+      <img src="{{ sw.icon | relative_url }}" alt="{{ sw.alt }}" class="software-icon"> {{ sw.name }}
+    </li>
+  {% endfor %}
+</ul>

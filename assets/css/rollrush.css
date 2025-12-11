@@ -1,0 +1,73 @@
+.achievement-icons {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 20px 15px;
+  margin: 25px 0;
+}
+
+.achievement-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.achievement-icon .icon-box {
+  width: 100%;
+  max-width: 100px;
+  aspect-ratio: 1;
+  margin-bottom: 5px;
+}
+
+.achievement-icon .icon-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.achievement-icon span {
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+@media (max-width: 991px) {
+  .achievement-icons {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .achievement-icon .icon-box {
+    max-width: 80px;
+  }
+  
+  .achievement-icon span {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 767px) {
+  .achievement-icons {
+    gap: 20px 10px;
+  }
+  
+  .achievement-icon .icon-box {
+    max-width: 60px;
+  }
+  
+  .achievement-icon span {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 480px) {
+  .achievement-icons {
+    gap: 16px 8px;
+  }
+  
+  .achievement-icon .icon-box {
+    max-width: 50px;
+  }
+  
+  .achievement-icon span {
+    font-size: 7px;
+  }
+}

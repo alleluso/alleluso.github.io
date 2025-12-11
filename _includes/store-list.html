@@ -1,0 +1,42 @@
+<!-- Available on Asset store -->
+<div class="available-on-box">
+    <h3 class="available-on-title">Available on</h3>
+    <div class="store-logos-container">
+        {% if include.fab %}
+        <div class="store-logo-item">
+            <a href="{{ include.fab }}" target="_blank" rel="noopener noreferrer" title="{{ site.data.store.fab.name }}">
+                <img src="{{ '/assets/images/external/' | append: site.data.store.fab.logo | relative_url }}" 
+                     alt="{{ site.data.store.fab.name }}" class="store-logo">
+            </a>
+        </div>
+        {% endif %}
+        
+        {% if include.unity %}
+        <div class="store-logo-item">
+            <a href="{{ include.unity }}" target="_blank" rel="noopener noreferrer" title="{{ site.data.store.unity.name }}">
+                <img src="{{ '/assets/images/external/' | append: site.data.store.unity.logo | relative_url }}" 
+                     alt="{{ site.data.store.unity.name }}" class="store-logo">
+            </a>
+        </div>
+        {% endif %}
+        
+        {% if include.unreal %}
+        <div class="store-logo-item">
+            <a href="{{ include.unreal }}" target="_blank" rel="noopener noreferrer" title="{{ site.data.store.unreal.name }}">
+                <img src="{{ '/assets/images/external/' | append: site.data.store.unreal.logo | relative_url }}" 
+                     alt="{{ site.data.store.unreal.name }}" class="store-logo">
+            </a>
+        </div>
+
+        {% endif %}
+        
+        {% if include.steam %}
+        <div class="store-logo-item">
+            <a href="{{ include.steam }}" target="_blank" rel="noopener noreferrer" title="{{ site.data.store.steam.name }}">
+                <img src="{{ '/assets/images/external/' | append: site.data.store.steam.logo | relative_url }}" 
+                     alt="{{ site.data.store.steam.name }}" class="store-logo">
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>

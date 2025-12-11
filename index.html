@@ -1,0 +1,44 @@
+---
+layout: base
+title: Home
+---
+
+{% include hero.html %}
+
+<!-- Projects Section -->
+<div class="untree_co-section" id="projects-section">
+  <div class="container">
+    <div class="row mb-3">
+      <div class="col-lg-7 text-center mx-auto">
+        <h2 class="section-heading gsap-reveal-hero mb-0">
+          <strong>Projects</strong>
+        </h2>
+        <div class="wave gsap-reveal-hero">
+          <svg>
+            <path d="M10,10 L50,100 L90,50" stroke="#0389ff"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    {% include blog-entries.html %}
+  </div>
+</div>
+
+<!-- Experience Section -->
+<div class="untree_co-section" id="experience-section">
+  <div class="container">
+    <div class="row mb-3">
+      <div class="col-lg-7 text-center mx-auto">
+        <h2 class="section-heading gsap-reveal-hero mb-0">
+          <strong>Experience</strong>
+        </h2>
+        <div class="wave gsap-reveal-hero">
+          <svg>
+            <path d="M10,10 L50,100 L90,50" stroke="#0389ff"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    {% include experience-list.html %}
+  </div>
+</div>

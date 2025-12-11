@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-lg-12 gsap-reveal-hero">
+    <div class="resume-box">
+      <ul>
+        {% assign sorted_experience = site.experience | sort: 'order' %}
+        {% for job in sorted_experience %}
+        <li>
+          <div class="icon">
+            <img src="{{ '/assets/images/external/' | append: job.logo | relative_url }}" alt="{{ job.company }}" class="img-fluid" style="padding: 5px;">
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <h4>{{ job.company }}</h4>
+            <span class="time">{{ job.period }}</span>
+          </div>
+          <h5>{{ job.position }}</h5>
+          {{ job.content }}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>

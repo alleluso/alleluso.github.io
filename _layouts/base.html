@@ -1,0 +1,143 @@
+<!-- /*
+* Template Name: Minimal
+* Template Author: Untree.co
+* Author URI: https://untree.co/
+* License: https://creativecommons.org/licenses/by/3.0/
+*/ -->
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Untree.co">
+    <link rel="shortcut icon" href="{{ '/favicon.png' | relative_url }}">
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=PT+Mono&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ '/assets/css/bootstrap.min.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/owl.carousel.min.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/owl.theme.default.min.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/jquery.fancybox.min.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/fonts/icomoon/style.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/fonts/flaticon/font/flaticon.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/aos.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/leagues.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/rollrush.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/badges.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/blog-posts.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/blog-page.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/syntax.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/timeline.css' | relative_url }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+
+    <title>{{ page.title }}</title>
+</head>
+
+<body data-spy="scroll" data-target=".site-navbar-target" data-offset="100">
+
+    <div class="lines-wrap">
+        <div class="lines-inner">
+            <div class="lines"></div>
+        </div>
+    </div>
+    <!-- END lines -->
+
+    <div class="site-mobile-menu site-navbar-target">
+        <div class="site-mobile-menu-header">
+            <div class="site-mobile-menu-close">
+                <span class="icofont-close js-menu-toggle"></span>
+            </div>
+        </div>
+        <div class="site-mobile-menu-body"></div>
+    </div>
+
+    <nav class="site-nav dark mb-5 site-navbar-target">
+        <div class="container">
+            <div class="site-navigation">
+                <a href="{{ '/' | relative_url }}" class="logo m-0">Alessandro<span class="text-primary">.</span></a>
+
+                <ul class="js-clone-nav d-none d-lg-inline-none site-menu float-right site-nav-wrap">
+                    <li><a href="{{ '/' | relative_url }}" class="nav-link{% if page.url == '/' or page.url == '/index.html' %} active{% endif %}">Home</a></li>
+                    
+                    <li style="margin-bottom: 20px;"></li>
+                    
+                    {% assign sorted_posts = site.posts | sort: 'date' | reverse %}
+                    {% for post in sorted_posts %}
+                        {% unless post.path contains 'unused_' %}
+                        <li><a href="{{ post.url | relative_url }}" class="nav-link{% if page.url == post.url %} active{% endif %}">{{ post.title }}</a></li>
+                        {% endunless %}
+                    {% endfor %}
+                    
+                    <li style="margin-bottom: 20px;"></li>
+
+                    <li><a href="{{ '/about.html' | relative_url }}" class="nav-link{% if page.url contains 'about' %} active{% endif %}">About</a></li>
+                </ul>
+
+                <a href="#"
+                    class="burger ml-auto float-right site-menu-toggle js-menu-toggle d-inline-block d-lg-inline-block"
+                    data-toggle="collapse" data-target="#main-navbar">
+                    <span></span>
+                </a>
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- Loading overlay -->
+    <div id="overlayer"></div>
+    <div class="loader">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+    {{ content }}
+
+    <!-- Footer -->
+    <div class="site-footer">
+        <div class="container">
+            <div class="row mt-5">
+                <div class="col-12 text-center">
+                    <p class="mb-0">
+                        Copyright &copy;
+                        <script>document.write(new Date().getFullYear());</script>.
+                        All Rights Reserved. &mdash; Designed with love by
+                        <a href="https://untree.co">Untree.co</a> Distributed By
+                        <a href="https://themewagon.com">ThemeWagon</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ '/assets/js/jquery-3.4.1.min.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/popper.min.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/bootstrap.min.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/owl.carousel.min.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/jquery.animateNumber.min.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/jquery.waypoints.min.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/jquery.fancybox.min.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/aos.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/wave-animate.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/circle-progress.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/imagesloaded.pkgd.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/isotope.pkgd.min.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/jquery.easing.1.3.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/TweenMax.min.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/ScrollMagic.min.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/scrollmagic.animation.gsap.min.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/custom.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/dynamic-year.js' | relative_url }}"></script>
+
+</body>
+
+</html>

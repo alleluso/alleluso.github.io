@@ -1,0 +1,215 @@
+---
+title: "MIDI Toolkit"
+date: 2025-10-01
+image: "miditoolkit/entry.jpg"
+type: "tech"
+project: "none"
+software:
+- unity
+- vscode
+- copilot
+excerpt: "Showcase of the 'MIDI Toolkit' Unity plugin for animating pianos and keyboards. Synchronizes MIDI data with 3D
+key animations in real time or pre-baked playback, with GPU-powered textures for lifelike performances, music education,
+and creative visuals."
+---
+
+<p>
+  MIDI Toolkit is a Unity plugin I wrote to animate the <a href="{% post_url 2025-09-01-grandpiano %}">Grand Piano</a>
+  model I created. The original goal was to allow
+  real-time MIDI input to animate the piano keys as I played my MIDI keyboard. Later, the project grew to include the
+  ability to play MIDI files directly.
+</p>
+
+<p>
+  I have used AI extensively to help me develop this plugin; mainly to test AI capabilities, and also to assist me where
+  my knowledge was lacking, such as understanding how MIDI works or how to implement it in Unity.
+</p>
+
+<h3 class="section-title text-black mt-5 mb-3">MIDI Input</h3>
+
+<div class="row align-items-start">
+  <div class="col-lg-8">
+    <p>
+      The first script I wrote was a MIDI live input reader, whose purpose is to connect to a MIDI input device such as
+      an electronic piano and read MIDI messages in real time. The script then fires events that other scripts can
+      subscribe to in order to react to the MIDI messages.
+    </p>
+    <p>
+      It currently only works on Windows, as I used the Windows MIDI API to read the MIDI messages. The script can be
+      easily extended to support other platforms by using other MIDI libraries, as it's designed with interfaces. I have
+      not done so yet, as I'm unable to test it on other platforms.
+    </p>
+    <p>
+      The script allows you to select the MIDI input device, and also to filter MIDI messages by channel. This allows
+      you to
+      use multiple MIDI devices at the same time, or to use a single device to control multiple instruments in Unity.
+    </p>
+    <p>
+      Finally, I built a custom editor to display useful information about the MIDI input device, such as
+      connection status, device name, and a list of performance metrics to help debug latency issues.
+    </p>
+  </div>
+  <div class="col-lg-4">
+    <div class="image-container mt-0">
+      <a href="{{ '/assets/images/miditoolkit/input.jpg' | relative_url }}" data-fancybox="">
+        <img src="{{ '/assets/images/miditoolkit/input.jpg' | relative_url }}" alt="MIDI Toolkit Input">
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="row align-items-start">
+  <div class="col-lg-8">
+    <p>
+      I then wanted a faster way to test MIDI events, so I wrote a script that reads MIDI files, parses them, and
+      fires events that other scripts can subscribe to in order to react to the MIDI messages.
+    </p>
+    <p>
+      The parsing is done once asynchronously and the events are stored in a list. Then the song can be played, and the
+      script allows you to control
+      playback speed, loop the playback, seek to a specific time, and also filter MIDI messages by track. It supports
+      MIDI messages of type Note On, Note Off, Tempo Change, and Control Change. This allowed me to test many
+      different MIDI files without needing to play them live.
+    </p>
+  </div>
+  <div class="col-lg-4">
+    <div class="image-container mt-0">
+      <a href="{{ '/assets/images/miditoolkit/file.jpg' | relative_url }}" data-fancybox="">
+        <img src="{{ '/assets/images/miditoolkit/file.jpg' | relative_url }}" alt="MIDI Toolkit Input">
+      </a>
+    </div>
+  </div>
+</div>
+
+<p>
+  To make it as generic as possible, Input classes provide MIDI events through an interface, so that Player scripts can
+  use
+  either the Live Input or the File Input interchangeably.
+</p>
+
+{%- highlight cs -%}
+{%- include_relative code_snippets/miditoolkit/IMidiEvents.cs -%}
+{%- endhighlight -%}
+
+<h3 class="section-title text-black mt-5 mb-3">MIDI Players</h3>
+
+<div class="row align-items-start">
+  <div class="col-lg-8">
+    <p>
+      Once I was able to capture MIDI events, I needed a way to use them to animate the piano keys. For this, I
+      experimented and settled on using a compute shader to generate a texture that contains the key states over time.
+      Each pixel in the texture represents a key, and the color represents values such as the state or velocity of the
+      key press. The texture is updated in real time as MIDI events are received, allowing for smooth
+      and accurate key animations.
+    </p>
+    <p>
+      The compute shader approach allows for efficient updates of the key states, as the GPU can handle the parallel
+      processing of multiple keys simultaneously. It also allows for extra visual effects, such as illuminating the
+      individual keys when they are pressed, since all the required information is already encoded in the texture used
+      to
+      modify the world position offset of each key in the shader.
+    </p>
+    <p>
+      The script allows you to change some parameters to control the animation, such as the fading speed of the key
+      presses to tune the visual effect.
+    </p>
+    <p>
+      Finally, I built a custom editor to help the user set up the script, as it displays step-by-step
+      instructions and checks to make sure everything (such as the compute shader, render target, or materials) is set
+      up
+      correctly. To complete the checks, the editor also displays a preview of the generated texture split by channel.
+    </p>
+    <p>
+      For more information about how the different color channels are used, refer to the <a
+        href="{% post_url 2025-09-01-grandpiano %}">Grand Piano</a> article.
+    </p>
+  </div>
+  <div class="col-lg-4">
+    <div class="image-container mt-0">
+      <a href="{{ '/assets/images/miditoolkit/compute.jpg' | relative_url }}" data-fancybox="">
+        <img src="{{ '/assets/images/miditoolkit/compute.jpg' | relative_url }}" alt="MIDI Toolkit Compute Shader">
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="row align-items-start">
+  <div class="col-lg-4">
+    <p>
+      As an experiment, I decided to build a script to bake MIDI events into a texture, using the same
+      concept as the real-time compute shader approach. This allows to precompute the key animations for a specific
+      MIDI file, and then use the baked texture to animate the keys without needing to use GPU resources during
+      playback.
+    </p>
+    <p>
+      The script parameters are the same as the real-time compute shader approach, and the data is stored in columns
+      representing time slices, with each row representing a key. The color values are used in the same way as the
+      real-time approach, encoding the key states and velocities.
+    </p>
+    <p>
+      Then, a second script is used to "play" back the baked texture by simply updating the material with the correct
+      texture coordinates based on the playback time.
+    </p>
+    <p>
+      Because of the pre-baked nature of this approach, it is not possible to use it with the Live Input script.
+    </p>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="image-container mt-0">
+      <a href="{{ '/assets/images/miditoolkit/baker.jpg' | relative_url }}" data-fancybox="">
+        <img src="{{ '/assets/images/miditoolkit/baker.jpg' | relative_url }}" alt="MIDI Toolkit Baker">
+      </a>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="image-container mt-0">
+      <a href="{{ '/assets/images/miditoolkit/player.jpg' | relative_url }}" data-fancybox="">
+        <img src="{{ '/assets/images/miditoolkit/player.jpg' | relative_url }}" alt="MIDI Toolkit Player">
+      </a>
+    </div>
+  </div>
+</div>
+
+
+<p>
+  <a href="{{ '/assets/images/miditoolkit/clair.png' | relative_url }}" data-fancybox="">This is an example</a> of how
+  the baked texture for "Clair de Lune" by Debussy looks.
+</p>
+
+<h3 class="section-title text-black mt-5 mb-3">MIDI Audio</h3>
+
+<div class="row">
+  <div class="col-lg-8 d-flex flex-column justify-content-between">
+    <div>
+      <p>
+        Finally, as an extra feature and not a core part of the toolkit, I implemented audio playback capabilities.
+      </p>
+      <p>
+        The script listens to the MIDI events from either the live input or the MIDI file player, and plays back audio
+        samples corresponding to the MIDI notes being played. It supports basic features such as note velocity, note
+        duration, sustain, and polyphony.
+      </p>
+      <p>
+        Below is an example of the audio playback in action recorded directly in Unity, using the File Player to play
+        "Sonata No. 14 C# minor (Moonlight)" by Beethoven. The audio samples used are from a free library I found online,
+        and it seems not all keys were in tune.
+      </p>
+    </div>
+    <audio controls preload="none" style="width:100%; margin-bottom:2rem;">
+      <source src="{{ '/assets/images/miditoolkit/beethoven.mp3' | relative_url }}" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+  </div>
+  <div class="col-lg-4">
+    <div class="image-container mt-0">
+      <a href="{{ '/assets/images/miditoolkit/audio.jpg' | relative_url }}" data-fancybox="">
+        <img src="{{ '/assets/images/miditoolkit/audio.jpg' | relative_url }}" alt="MIDI Toolkit Audio">
+      </a>
+    </div>
+  </div>
+</div>
+
+{% include software-list.html software=page.software %}
+
+{% include store-list.html fab="https://fab.com/s/7f5b188fc5d7"%}

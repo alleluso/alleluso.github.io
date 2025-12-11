@@ -1,0 +1,12 @@
+fab:
+  name: "FAB"
+  logo: "logo_fab.svg"
+unity:
+  name: "Unity Asset Store"
+  logo: "logo_unity.png"
+unreal:
+  name: "Unreal Engine Marketplace"
+  logo: "logo_unreal.svg"
+steam:
+  name: "Steam"
+  logo: "logo_steam.png"

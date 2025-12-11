@@ -1,0 +1,102 @@
+---
+title: "Adventure"
+date: 2020-01-01
+image: "adventure/entry.jpg"
+type: "tech"
+project: "burraco"
+software:
+- unity
+excerpt: "Showcase of the time-limited single-player Adventure event in Burraco. Progress through procedurally generated worlds by spending Steps and Coins, overcoming levels for exclusive rewards. Features dynamic map generation, modular tiles, and flexible progression tailored for engaging, replayable gameplay."
+---
+
+<div class="row mb-4">
+  <div class="col-lg-4">
+    <p>The <b>Adventure</b> is a time-limited, single-player event that takes place across three distinct
+      worlds. The ultimate goal is to reach the end of these worlds and earn exclusive rewards.</p>
+    <p>Progression is structured around levels, each of which must be completed by winning a game of Burraco
+      against an opponent. To enter a level, players must spend a special resource called <b>Steps</b>.</p>
+    <p>Participation in these challenges requires both <b>Steps</b> and <b>Coins</b>. Winning a match rewards
+      the player with additional Coins and Steps, allowing them to continue progressing through the adventure.
+    </p>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="video-container-vertical">
+      <video autoplay loop muted>
+        <source src="{{ '/assets/images/adventure/adv.mp4' | relative_url }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <div class="media-description">
+        <p>Standard version</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="video-container-vertical">
+      <video autoplay loop muted>
+        <source src="{{ '/assets/images/adventure/adv_chr.mp4' | relative_url }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <div class="media-description">
+        <p>Christmas version</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row align-items-center">
+  <div class="col-lg-4">
+    <div class="image-container">
+      <div id="adventureGallery" class="carousel slide" data-ride="carousel" data-interval="5000" data-pause="false"
+        style="pointer-events: none;">
+        <div class="carousel-inner" style="overflow: hidden;">
+          <div class="carousel-item active">
+            <img src="{{ '/assets/images/adventure/map.jpg' | relative_url }}" class="d-block w-100"
+              alt="Adventure Map 1" style="object-fit: cover;">
+          </div>
+          <div class="carousel-item">
+            <img src="{{ '/assets/images/adventure/tiles.jpg' | relative_url }}" class="d-block w-100"
+              alt="Adventure Map 2" style="object-fit: cover;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-8">
+    <p>One of the key requirements outlined in the Game Design Document (GDD) was the ability to <b>remotely
+        configure both the number of steps</b> a user must complete in each world, as well as <b>the total
+        length of the map</b>. This
+      flexibility was essential to tailor the experience and balance progression for different user segments.
+      For example,
+      User A might encounter three worlds with three steps each, while User B could progress through two
+      worlds
+      with six steps each. It quickly became clear that a static background per world would not meet these
+      needs.</p>
+
+    <p>To solve this, I proposed and implemented a <b>procedural generation system</b> that would allow an
+      adventure map to be
+      dynamically built at runtime. I designed the system to break the map into worlds, and each world into
+      modular <b>tiles</b>.
+      Tiles are reusable segments of road that could be arranged to form a continuous, coherent path. The only
+      constraint I introduced
+      was that all tiles within the same world must share a consistent graphical border. This made arbitrary
+      rearrangement possible.</p>
+
+    <p>I structured each world to consist of a start tile, an end tile, and an indefinite number of middle and
+      connector tiles.
+      To make the system flexible and designer-friendly, I defined these tile sets within a ScriptableObject
+      container, which is then used by the
+      <code>AdventureMapGenerator</code> system. I also built such generator to take a configurable number of
+      steps per world
+      and procedurally assemble the appropriate tile sequence. Once the layout is generated, a spline is
+      created to represent the road connecting all steps.
+      By using ScriptableObjects, I ensured the system could support <b>dynamic updates via AssetBundles or
+        Addressables</b>,
+      allowing for rapid iteration and easy deployment of new map environments.
+    </p>
+  </div>
+</div>
+
+{% include software-list.html software=page.software %}

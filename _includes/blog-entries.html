@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="col-lg-12 gsap-reveal-hero">
+        {% for post in site.posts %}
+        <div data-aos="zoom-in" data-aos-anchor-placement="center-bottom">
+            <a href="{{ post.url }}" class="blog-entry-link">
+                <div class="row blog-entry align-items-stretch {{ site.data.post-type[post.type].style }}" {% if forloop.last %}style="margin-bottom: 0;"{% endif %}>
+                    <div class="col-md-3">
+                        <div class="blog-entry-image-wrapper">
+                            <img src="{{ '/assets/images/' | append: post.image | relative_url }}"
+                                alt="{{ post.title }}" class="blog-entry-image">
+                            <span class="blog-entry-tag">{{ site.data.post-type[post.type].tag }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="blog-entry-content">
+                            <h4 class="section-heading">{{ post.title }}</h4>
+                            <p>{{ post.excerpt }}</p>
+                            <span class="blog-entry-read-more">Read More →</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>

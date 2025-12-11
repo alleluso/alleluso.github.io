@@ -1,0 +1,20 @@
+---
+layout: base
+---
+<!-- Blog Post Content -->
+<div class="untree_co-section">
+    <div class="container">
+        <!-- Blog Post Title -->
+        <h1 class="heading mb-4">{{ page.title }}</h1>
+
+        <!-- Blog Post Meta Information (Optional) -->
+        <div class="post-meta mb-4">
+            <span class="date">{{ page.date | date: "%B %d, %Y" }}</span>
+        </div>
+
+        <!-- Blog Post Content -->
+        <div class="post-content">
+            {{ page.content }}
+        </div>
+    </div>
+</div>
