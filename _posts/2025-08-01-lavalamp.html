@@ -1,0 +1,108 @@
+---
+title: "Lava Lamp"
+date: 2025-08-01
+image: "lavalamp/entry.jpg"
+type: "techart"
+project: "none"
+software:
+- blender
+- unity
+excerpt: "Showcase of a fictional 'Armoni' grand piano 3D model inspired by the Fazioli F-212. Optimized for real‑time
+engines (Unity, Unreal) with detailed rig: lid, fallboard, music desk, keys and internal action driven via vertex
+animation textures and MIDI data."
+---
+
+<p>
+  A small experimentals project to explore ray marching.
+  The rendering was done in Unity URP, with a custom shader built using a mix of HLSL and Shader Graph. The lamp model was created and textured in Blender. It’s inspired by a vintage lava lamp from my childhood that still sits on a nearby shelf. The digital version looks a bit cleaner though, since the real lamp’s liquid has aged in far less appealing ways.
+</p>
+
+<div class="image-container">
+    <a href="{{ '/assets/images/lavalamp/banner.jpg' | relative_url }}" data-fancybox="">
+      <img src="{{ '/assets/images/lavalamp/banner.jpg' | relative_url }}" alt="Lava Lamp">
+    </a>
+</div>
+
+<div class="youtube-embed-wrapper">
+    <div class="youtube-embed-container">
+        <iframe src="https://www.youtube.com/embed/pXpGQ5L9bMc" title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+    <div class="media-description">
+        <p>Unity Render. The lava does not account for volume conservation, the bottom and top parts do not grow or shrink based on how much wax is added or removed. It could be faked by carefully positioning the blobs that go up and down in the right place.</p>
+    </div>
+</div>
+
+<div class="youtube-embed-wrapper">
+    <div class="youtube-embed-container">
+        <iframe src="https://www.youtube.com/embed/4YkCJ7HbpkY&t=1s" title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+    <div class="media-description">
+        <p>Raymarched primitives before applying smooth union operation and displacement.</p>
+    </div>
+</div>
+
+<div class="image-container">
+    <a href="{{ '/assets/images/lavalamp/shader.jpg' | relative_url }}" data-fancybox="">
+      <img src="{{ '/assets/images/lavalamp/shader.jpg' | relative_url }}" alt="Lava Lamp Shader">
+    </a>
+    <div class="media-description">
+        <p>Shader Graph for the lava effect and glass.</p>
+    </div>
+</div>
+
+<div class="custom-block">
+    <div class="custom-accordion" id="accordion_1">
+        <div class="accordion-item">
+            <h2 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseOne"
+                    aria-expanded="false" aria-controls="collapseOne">Lava HLSL Node</button>
+            </h2>
+
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion_1">
+                <div class="accordion-body">
+                    <p>The main HLSL node for the lava lamp effect driven by ray marching.</p>
+                    {%- highlight hlsl -%}
+                    {%- include_relative code_snippets/lavalamp/lava.hlsl -%}
+                    {%- endhighlight -%}
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="false" aria-controls="collapseTwo">SDF Helper Functions</button>
+            </h2>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion_1">
+                <div class="accordion-body">
+                    {%- highlight hlsl -%}
+                    {%- include_relative code_snippets/lavalamp/sdf.hlsl -%}
+                    {%- endhighlight -%}
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree"
+                    aria-expanded="false" aria-controls="collapseThree">Easing Helper Functions</button>
+            </h2>
+
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion_1">
+                <div class="accordion-body">
+                    {%- highlight hlsl -%}
+                    {%- include_relative code_snippets/lavalamp/easing.hlsl -%}
+                    {%- endhighlight -%}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include software-list.html software=page.software %}
