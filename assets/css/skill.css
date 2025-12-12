@@ -1,0 +1,32 @@
+/* Override achievement-icons layout for skills section */
+.gsap-reveal-hero .reveal-wrap:has(.achievement-icons),
+.gsap-reveal-hero .reveal-content:has(.achievement-icons) {
+    display: block !important;
+    width: 100% !important;
+}
+
+/* Star Rating System */
+.star-rating {
+    display: inline-block;
+    position: relative;
+    font-size: 16px;
+    line-height: 1;
+    margin-top: 5px;
+}
+
+.star-rating::before {
+    content: '★★★★★';
+    letter-spacing: 2px;
+    color: #d1d5db;
+}
+
+.star-rating::after {
+    content: '★★★★★';
+    letter-spacing: 2px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #0389ff;
+    overflow: hidden;
+    width: calc(var(--rating) * 1%);
+}
