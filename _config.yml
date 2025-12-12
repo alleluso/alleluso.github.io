@@ -20,13 +20,44 @@
 
 title: Alessandro Lusetti - Portfolio
 description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+  Portfolio of Alessandro Lusetti, a game developer with seven years of experience
+  building interactive experiences in Unity and Unreal Engine. Specialized in optimizing
+  systems for live-service games, custom shaders, procedural animation, and full-stack
+  development. Exploring the intersection of code and art through 3D modeling, MIDI
+  integration, and creative technical experiments.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://alleluso.github.io" # the base hostname & protocol for your site
 email: alleluso95@gmail.com
-github_username:  alleluso
+github_username: alleluso
+
+# SEO Settings
+author:
+  name: Alessandro Lusetti
+  email: alleluso95@gmail.com
+  
+social:
+  name: Alessandro Lusetti
+  links:
+    - https://github.com/alleluso
+
+logo: /assets/images/internal/me.jpg
+lang: en_US
+
+# Twitter card settings
+twitter:
+  card: summary
+
+# Open Graph settings
+webmaster_verifications:
+  google: # Add your Google Search Console verification code here if needed
+  
+tagline: Senior Unity Game Developer | Full-Stack Experience | LiveOps Specialist
+
+# Analytics settings
+jekyll_analytics:
+  GoogleAnalytics:          # Add, if you want to track with Google Analytics
+    id: G-NKXE6WFD0S        # Required - replace with your tracking id
+    anonymizeIp: false      # Optional - Default: false - set to true for anonymized tracking
 
 # Build settings
 
@@ -54,6 +85,8 @@ highlighter: rouge
 
 plugins:
   - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-analytics
 
 # Exclude from processing.
 # The following items will not be processed, by default.
