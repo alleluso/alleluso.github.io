@@ -6,23 +6,25 @@
   border: 1px solid #e0e0e0;
 }
 
-.resume-box ul {
+
+/* Only style the main job list, not nested lists */
+.resume-box ul.job-list {
   margin: 0;
   padding: 30px 20px;
   list-style: none;
 }
 
-.resume-box li {
+.resume-box ul.job-list > li {
   position: relative;
-  padding: 0 20px 0 60px;
+  padding: 0 0 0 60px;
   margin: 0 0 30px;
 }
 
-.resume-box li:last-child {
+.resume-box ul.job-list > li:last-child {
   margin-bottom: 0;
 }
 
-.resume-box li:after {
+.resume-box ul.job-list > li:after {
   content: "";
   position: absolute;
   top: 0px;
@@ -48,6 +50,7 @@
 
 .resume-box .icon img {
   vertical-align: top;
+  padding: 5px;
 }
 
 .resume-box .time {
@@ -59,18 +62,17 @@
   align-content: center;
 }
 
-.resume-box h3 {
-  color: #000000;
+@media (max-width: 991px) {
+  .resume-box .time {
+    padding: 2px 5px;
+    min-width: fit-content;
+    margin-left: 20px;
+  }
 }
 
 .resume-box h4 {
-  color: #000000;
-  height: 40px;
+  min-height: 40px;
   align-content: center;
-}
-
-.resume-box h5 {
-  color: #000000;
 }
 
 .resume-box p {
