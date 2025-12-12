@@ -40,8 +40,18 @@
 
     <title>{{ page.title }}</title>
 
-{% seo %}
+    {% seo %}
 </head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NKXE6WFD0S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-NKXE6WFD0S');
+</script>
 
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="100">
 
