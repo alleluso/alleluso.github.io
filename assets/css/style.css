@@ -67,14 +67,14 @@ a.text-primary {
 
 h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
   font-family: "Montserrat", sans-serif;
-  color: #dddde6; }
+  color: #000000; }
 
 .btn {
   padding-top: 14px;
   padding-bottom: 14px;
   padding-left: 20px;
   padding-right: 20px;
-  border-radius: 0px;
+  border-radius: 4px;
   font-size: 14px;
   border: 1px solid transparent; }
   .btn:active, .btn:focus {

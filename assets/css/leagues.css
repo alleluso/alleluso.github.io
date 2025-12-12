@@ -41,3 +41,17 @@
   font-size: 14px;
   line-height: 1.2;
 }
+
+/* Mobile responsive: 2 rows of 3 icons */
+@media (max-width: 768px) {
+  .league-icons {
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+  }
+  
+  .league-icon {
+    width: calc(33.333% - 15px); /* 3 columns */
+    min-width: 80px;
+  }
+}
