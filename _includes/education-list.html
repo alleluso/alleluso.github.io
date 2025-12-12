@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="resume-box">
+      <ul class="job-list">
+        {% assign sorted_education = site.education | sort: 'order' %}
+        {% for school in sorted_education %}
+        <li>
+          <div class="icon">
+            <img src="{{ '/assets/images/external/' | append: school.logo | relative_url }}" alt="{{ school.school }}"
+              class="img-fluid">
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <h4>{{ school.degree }}</h4>
+            <span class="time">{{ school.period }}</span>
+          </div>
+          <h5>{{ school.school }}</h5>
+          {{ school.content }}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
