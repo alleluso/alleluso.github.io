@@ -1,25 +1,14 @@
 ---
 permalink: /404.html
-layout: page
+layout: base
 ---
 
-<style type="text/css" media="screen">
-  .container {
-    margin: 10px auto;
-    max-width: 600px;
-    text-align: center;
-  }
-  h1 {
-    margin: 30px 0;
-    font-size: 4em;
-    line-height: 1;
-    letter-spacing: -1px;
-  }
-</style>
-
-<div class="container">
-  <h1>404</h1>
-
-  <p><strong>Page not found :(</strong></p>
-  <p>The requested page could not be found.</p>
+<div class="untree_co-section">
+  <div class="container text-center">
+    <div class="image-container align-items-center justify-content-center" style="display: flex; flex-direction: column;">
+      <img src="{{ '/assets/images/external/404.png' | relative_url }}" alt="404" style="max-width: 800px;">
+  </div>
+  <p>You seem a bit lost...<br>The requested page does not exist.</p>
+  <a href="{{ '/' | relative_url }}" class="btn btn-primary mt-3">Take me home</a>
+  </div>
 </div>
