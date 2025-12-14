@@ -29,6 +29,8 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://alleluso.github.io" # the base hostname & protocol for your site
 email: alleluso95@gmail.com
 github_username: alleluso
+github_url: https://github.com/alleluso
+linkedin_url: https://www.linkedin.com/in/alessandrolusetti
 
 # SEO Settings
 author:
@@ -39,6 +41,7 @@ social:
   name: Alessandro Lusetti
   links:
     - https://github.com/alleluso
+    - https://www.linkedin.com/in/alessandrolusetti
 
 logo: /assets/images/internal/me.jpg
 lang: en_US
