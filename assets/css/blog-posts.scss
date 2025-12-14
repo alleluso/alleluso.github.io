@@ -147,18 +147,26 @@ $game-hover: #fff4e6;
   margin-top: 0.75rem;
 }
 
+/* Engine Icons */
+.engine-icons {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+  margin-left: 16px;
+}
+
+.engine-icon {
+  height: 24px;
+  width: auto;
+  object-fit: contain;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .blog-entry {
-    text-align: center;
-  }
   
   .blog-entry-image-wrapper {
     max-width: 150px;
     margin: 0 auto 1rem auto;
   }
   
-  .blog-entry-read-more {
-    text-align: center;
-  }
 }

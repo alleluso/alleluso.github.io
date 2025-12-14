@@ -14,7 +14,25 @@
           </div>
           <div class="col-md-9">
             <div class="blog-entry-content">
-              <h4>{{ post.title }}</h4>
+              <div class="d-flex justify-content-between">
+                <h4 class="mb-2">
+                  {% if post.project and post.project != 'none' %}
+                    {{ site.data.project[post.project].name }} - {{ post.title }}
+                  {% else %}
+                    {{ post.title }}
+                  {% endif %}
+                </h4>
+                <div class="engine-icons">
+                  {% for software in post.software %}
+                    {% if software == 'unity' or software == 'unreal' %}
+                      <img src="{{ site.data.software[software].icon | relative_url }}" 
+                           alt="{{ site.data.software[software].alt }}" 
+                           title="{{ site.data.software[software].name }}"
+                           class="engine-icon">
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
               <p>{{ post.excerpt }}</p>
               <span class="blog-entry-read-more">Read More →</span>
             </div>

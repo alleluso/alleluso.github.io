@@ -236,3 +236,19 @@
     margin-right: 1rem;
     object-fit: contain;
 }
+
+/* Project Icon */
+.project-icon {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+    margin-left: 2rem;
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .project-icon {
+        height: 32px;
+        margin-left: 1rem;
+    }
+}
