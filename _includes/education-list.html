@@ -11,8 +11,9 @@
           </div>
           <div style="display: flex; justify-content: space-between;">
             <h4>{{ school.degree }}</h4>
-            <span class="time">{{ school.period }}</span>
+            <span class="time d-none d-md-inline">{{ school.period }}</span>
           </div>
+          <h5 class="d-md-none">{{ school.period }}</h5>
           <h5>{{ school.school }}</h5>
           {{ school.content }}
         </li>

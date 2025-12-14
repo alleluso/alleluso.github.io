@@ -11,8 +11,9 @@
           </div>
           <div style="display: flex; justify-content: space-between;">
             <h4>{{ job.position }}</h4>
-            <span class="time">{{ job.period }}</span>
+            <span class="time d-none d-md-inline">{{ job.period }}</span>
           </div>
+          <h5 class="d-md-none">{{ job.period }}</h5>
           <h5>{{ job.company }}</h5>
           {{ job.content }}
         </li>
