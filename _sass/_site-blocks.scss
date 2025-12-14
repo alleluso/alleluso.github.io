@@ -624,15 +624,15 @@ figure{
 		margin-left: -570px;
 		top: 0;
 		height: 100%;
-		border-left: 1px solid #efefef;
-		border-right: 1px solid #efefef;
+		border-left: 1px solid $lines;
+		border-right: 1px solid $lines;
 		.lines {
 			position: absolute;
 			left: 33.333333%;
 			right: 33.333333%;
 			height: 100%;
-			border-left: 1px solid #efefef;
-			border-right: 1px solid #efefef;
+			border-left: 1px solid $lines;
+			border-right: 1px solid $lines;
 		}
 	}
 }

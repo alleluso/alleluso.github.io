@@ -1,3 +1,6 @@
+---
+---
+
 // MENU
 .logo {
 	font-size: 24px;
@@ -584,5 +587,44 @@
   .burger:focus {
   	outline: none;
   }
+
+/* Social Icons */
+.social-icon-box {
+	width: 32px;
+	height: 32px;
+	align-items: center;
+	align-content: center;
+	justify-content: center;
+	display: inline-flex;
+	border: 1px solid $lines;
+	border-radius: 4px;
+	cursor: pointer;
+	position: relative;
+	transition: all 0.3s ease;
+	
+	span[class^="icon-"] {
+		font-size: 24px;
+		line-height: 1;
+		transition: all 0.3s ease;
+	}
+	
+	&:hover {
+		border-color: $primary;
+		background-color: $lines;
+	}
+	
+	// LinkedIn specific color
+	&.icon {
+		span {
+			color: #000000;
+		}
+		&:hover {
+			background-color: rgba(0, 119, 181, 0.1);
+			span {
+				color: $primary;
+			}
+		}
+	}
+}
 
 

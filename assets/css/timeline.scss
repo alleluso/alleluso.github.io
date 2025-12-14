@@ -1,9 +1,14 @@
+---
+---
+
+@use "theme" as *;
+
 /* Resume Box
 ---------------------*/
 .resume-box {
   background: #ffffff;
   border-radius: 4px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid $lines;
 }
 
 
@@ -29,7 +34,7 @@
   position: absolute;
   top: 0px;
   left: 20px;
-  border-left: 1px solid #0389ff;
+  border-left: 1px solid $primary;
   bottom: 0;
 }
 
@@ -39,12 +44,12 @@
   position: absolute;
   left: 0;
   right: 0;
-  color: #0389ff;
+  color: $primary;
   line-height: 40px;
   background: #ffffff;
   text-align: center;
   z-index: 1;
-  border: 1px solid #0389ff;
+  border: 1px solid $primary;
   border-radius: 4px;
 }
 
@@ -54,7 +59,7 @@
 }
 
 .resume-box .time {
-  border: 1px solid #0389ff;
+  border: 1px solid $primary;
   height: 40px;
   padding: 2px 20px;
   display: inline-block;
@@ -84,6 +89,6 @@
   position: absolute;
   top: 0px;
   left: 20px;
-  border-left: 1px solid #0389ff;
+  border-left: 1px solid $primary;
   bottom: 0;
 }

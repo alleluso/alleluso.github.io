@@ -1,39 +1,54 @@
-/* Theme color variables */
+---
+---
+
+@use "theme" as *;
+
+$art: #ff00ff;
+$art-hover: #fff0ff;
+
+$tech: #0088ff;
+$tech-hover: #ebf5ff;
+
+$tech-art: #00ffcc;
+$tech-art-hover: #e6fff9;
+
+$game: #ff6600;
+$game-hover: #fff4e6;
 
 /* ART theme - Purple/Magenta */
 .blog-entry.theme-art {
   --gradient-start: #000000;
-  --gradient-end: #ff00ff;
-  --hover-bg: #fff0ff;
-  --hover-border: #ff00ff;
-  --accent-color: #ff00ff;
+  --gradient-end: #{$art};
+  --hover-bg: #{$art_hover};
+  --hover-border: #{$art};
+  --accent-color: #{$art};
 }
 
 /* TECH theme - Blue */
 .blog-entry.theme-tech {
   --gradient-start: #000000;
-  --gradient-end: #0088ff;
-  --hover-bg: #ebf5ff;
-  --hover-border: #0389ff;
-  --accent-color: #0389ff;
+  --gradient-end: #{$tech};
+  --hover-bg: #{$tech_hover};
+  --hover-border: #{$tech};
+  --accent-color: #{$tech};
 }
 
 /* TECH+ART theme - Cyan/Teal */
 .blog-entry.theme-tech-art {
   --gradient-start: #000000;
-  --gradient-end: #00ffcc;
-  --hover-bg: #e6fff9;
-  --hover-border: #00ffcc;
-  --accent-color: #00ffcc;
+  --gradient-end: #{$tech-art};
+  --hover-bg: #{$tech-art_hover};
+  --hover-border: #{$tech-art};
+  --accent-color: #{$tech-art};
 }
 
 /* GAME theme - Orange */
 .blog-entry.theme-game {
   --gradient-start: #000000;
-  --gradient-end: #ff6600;
-  --hover-bg: #fff4e6;
-  --hover-border: #ff6600;
-  --accent-color: #ff6600;
+  --gradient-end: #{$game};
+  --hover-bg: #{$game_hover};
+  --hover-border: #{$game};
+  --accent-color: #{$game};
 }
 
 /* Blog Post Entry Styles */
@@ -57,7 +72,7 @@
   margin-bottom: 10px;
   transition: all 0.3s ease;
   padding: 15px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid $lines;
   background-color: white;
   border-radius: 4px;
   cursor: pointer;
