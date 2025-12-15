@@ -1,0 +1,88 @@
+---
+title: "Club Badges"
+date: 2022-01-01
+image: "badges/entry.jpg"
+type: "tech"
+project: "burraco"
+software:
+- unity
+excerpt: "Explore how I brought Burraco’s Club Badges to life with custom animations and unique particle effects for each division—making every achievement feel special and visually rewarding."
+---
+
+<div class="row mb-4">
+  <div class="col-lg-8">
+    <p>
+      The Club Badges are prestigious awards earned by participating in the weekly Rabbit Race club event. Each week, groups of 20 clubs compete for prizes and recognition. The top-ranked clubs receive exclusive badges that highlight their achievements and allow them to advance to the next division. There are six divisions in total, each featuring a distinct and visually striking badge design.
+    </p>
+
+    <!-- Badge Icons Row -->
+    <div class="badge-icons">
+      <div class="badge-icon">
+        <div class="icon-box">
+          <img src="{{ '/assets/images/badges/1.png' | relative_url }}" alt="Division I">
+        </div>
+        <div class="detail-v1 text-center mx-auto">
+          <span class="detail-label">Div. 1</span>
+        </div>
+      </div>
+      <div class="badge-icon">
+        <div class="icon-box">
+          <img src="{{ '/assets/images/badges/2.png' | relative_url }}" alt="Division II">
+        </div>
+        <div class="detail-v1 text-center mx-auto">
+          <span class="detail-label">Div. 2</span>
+        </div>
+      </div>
+      <div class="badge-icon">
+        <div class="icon-box">
+          <img src="{{ '/assets/images/badges/3.png' | relative_url }}" alt="Division III">
+        </div>
+        <div class="detail-v1 text-center mx-auto">
+          <span class="detail-label">Div. 3</span>
+        </div>
+      </div>
+      <div class="badge-icon">
+        <div class="icon-box">
+          <img src="{{ '/assets/images/badges/4.png' | relative_url }}" alt="Division IV">
+        </div>
+        <div class="detail-v1 text-center mx-auto">
+          <span class="detail-label">Div. 4</span>
+        </div>
+      </div>
+      <div class="badge-icon">
+        <div class="icon-box">
+          <img src="{{ '/assets/images/badges/5.png' | relative_url }}" alt="Division V">
+        </div>
+        <div class="detail-v1 text-center mx-auto">
+          <span class="detail-label">Div. 5</span>
+        </div>
+      </div>
+      <div class="badge-icon">
+        <div class="icon-box">
+          <img src="{{ '/assets/images/badges/6.png' | relative_url }}" alt="Division VI">
+        </div>
+        <div class="detail-v1 text-center mx-auto">
+          <span class="detail-label">Div. 6</span>
+        </div>
+      </div>
+    </div>
+
+    <p>
+      The higher the division, the more challenging the competition. Players must consistently perform at their best to climb the ranks and earn their place among the elite. To visually capture the effort required to reach each division, I designed a unique set of animations and particle effects for every badge.
+    </p>
+    <p>
+      Each badge animation is carefully crafted with its own theme to reflect its division's prestige, making every achievement feel truly special. These effects not only elevate the visual experience but also provide meaningful feedback, ensuring that players feel rewarded for their progress.
+    </p>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="video-container-vertical">
+      <video autoplay loop muted>
+        <source src="{{ '/assets/images/badges/badges.mp4' | relative_url }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+</div>
+
+{% include software-list.html software=page.software %}
