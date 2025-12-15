@@ -1,0 +1,61 @@
+---
+title: "Store"
+date: 2023-01-01
+image: "store/entry.jpg"
+type: "tech"
+project: "burraco"
+software:
+- unity
+excerpt: "A look at the redesigned in-game store for Burraco: how I rebuilt it from scratch to be flexible, dynamic, and easy to update—while making it look and feel great in both portrait and landscape modes."
+---
+
+<div class="row mb-4">
+  <div class="col-lg-8">
+
+    <p>The store is where players can pick up in-game items and resources, either with real money or in-game currency. There’s a bit of everything: special offers, exclusive items, and currency packs.</p>
+    <p>This is the latest version of the store, completely redesigned and rebuilt from scratch. The goal was to give it a fresh look and boost monetization. Since most of the logic is on the client side (with just data configuration on the server), I handled the whole build myself, focusing on a few key points:</p>
+    <ul>
+      <li><strong>Single Scroll:</strong> The store scrolls vertically in portrait and horizontally in landscape. Each section’s layout adapts smoothly to the screen orientation.</li>
+      <li><strong>Section Types:</strong> The store is split into different sections, each with its own style and purpose. I built a modular system so it’s easy to add, remove, or tweak sections as needed.</li>
+      <li><strong>Section Ordering:</strong> The order of sections is set by a server config, which makes A/B testing and experimenting with layouts simple.</li>
+      <li><strong>Section Refreshing:</strong> Each section can update its content on its own—like when an offer expires or a condition changes. The whole store can also update and rearrange itself without a full app reload.</li>
+      <li><strong>Section Customization:</strong> Sections like Special Offers are customizable through AssetBundles or Addressables, so new content and updates can go live quickly, without needing a full app release.</li>
+    </ul>
+
+  </div>
+
+  <div class="col-lg-4">
+    <div class="video-container-vertical">
+      <video autoplay loop muted>
+        <source src="{{ '/assets/images/store/portrait.mp4' | relative_url }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <div class="media-description">
+        <p>Portrait orientation</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p>
+  The art team provided all the graphic assets, but I handled everything else: animations, effects, and implementation. I used Unity’s UI system (uGUI), DOTween, the Animator, and some custom shaders and particle systems for the visuals.
+</p>
+
+<div class="row mb-4 align-items-start">
+  <div class="col-lg-4">
+    <p>Burraco works in both portrait and landscape, so the store had to feel right in either mode. Each layout adapts on the fly; no need to duplicate elements, since everything just rearranges itself depending on the orientation.</p>
+  </div>
+  <div class="col-lg-8">
+    <div class="video-container mt-0">
+      <video autoplay loop muted>
+        <source src="{{ '/assets/images/store/landscape.mp4' | relative_url }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <div class="media-description">
+        <p>Landscape orientation</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include software-list.html software=page.software %}
