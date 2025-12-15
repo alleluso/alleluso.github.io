@@ -41,9 +41,8 @@
     margin: 20px 0;
   }
   
-  .badge-icon {
-    width: calc(33.333% - 15px); /* 3 columns */
-    min-width: 80px;
+  .badge-icon .icon-box {
+    width: 100px;    /* fixed width for box */
+    height: 100px;   /* fixed height for box */
   }
-  
 }
