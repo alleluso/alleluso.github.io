@@ -1,12 +1,53 @@
 ---
-title: "Gallery"
+title: "Table Gallery"
 date: 2021-01-01
 image: "gallery/entry.jpg"
 type: "tech"
 project: "burraco"
 software:
 - unity
-excerpt: "TODO"
+excerpt: "Burraco’s table selection screen, built fully client-side: tables are grouped and sorted from server config, generated on the fly in uGUI, styled with AssetBundle-driven card skins, and finished with a 3D-style flip effect using sprites and a perspective camera."
 ---
 
+<div class="row mb-4">
+  <div class="col-lg-8">
+    <p>
+      The gallery is Burraco’s table selection screen, where users can choose different rule sets for their next game and decide how many coins to bet. There are plenty of options to tailor the experience to each player’s preferences.
+    </p>
+    <p>
+      Once the designers finalized the layout and functionality, I was tasked with implementing the page, since all the logic is handled client-side. The only configuration we get from the server is a list of available tables with their properties (name, min/max bet, rules, etc.).
+    </p>
+    <p>
+      I take the list of tables and split them into categories based on their rule set and the number of players each table supports. Then, I sort both the categories and the tables within them according to a sorting parameter defined on the server. Once everything is sorted, I create the UI elements on the fly using a mix of Unity’s uGUI and 2D Sprites. I separated the graphics of a single table card into two layers: the customized graphics and the interactable UI. This serves two main purposes:
+      <ul>
+        <li>
+          <strong>Customization:</strong> Each card can have its own design, which is downloaded from Asset Bundles. This allows us to add or change a table without updating the app. The interactable UI (like the Play button or bet text) stays the same for consistency, so there’s no need to include it in the bundle.
+        </li>
+        <li>
+          <strong>3D effect:</strong> Burraco is purely canvas-based and uses an orthographic camera for rendering, which means perspective isn’t really possible (without refactoring a good chunk of the app), especially with UI elements. To achieve the 3D effect of a flipping card, I used 2D sprites rendered by a separate camera capable of perspective. The texture from that camera is then placed behind the interactable UI.
+        </li>
+      </ul>
+    </p>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="video-container-vertical">
+      <video autoplay loop muted>
+        <source src="{{ '/assets/images/gallery/gallery.mp4' | relative_url }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+</div>
+
+<p>
+    This system could have given us a lot of flexibility for adding new tables or special events, even though we never fully took advantage of it.
+</p>
+
+<p>
+  I implemented the rest of the screen with simple uGUI and DOTween animations, or Animators for the transitions.
+</p>
+
 {% include software-list.html software=page.software %}
+
+{% include app-list.html %}
