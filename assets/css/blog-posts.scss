@@ -161,6 +161,15 @@ $game-hover: #fff4e6;
   object-fit: contain;
 }
 
+/* Project Icon */
+.project-icon-post {
+  height: 1.5rem;
+  width: auto;
+  margin-right: 0.5rem;
+  margin-left: 0;
+  object-fit: contain;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   

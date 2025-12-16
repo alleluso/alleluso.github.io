@@ -1,3 +1,5 @@
 burraco:
   name: "Burraco: la Sfida"
   icon: /assets/images/internal/logo_burraco.png
+  android_link: https://play.google.com/store/apps/details?id=com.WhatWapp.BurracoOnline
+  ios_link: https://apps.apple.com/it/app/burraco-italiano-la-sfida/id1019117289

@@ -43,6 +43,7 @@
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
+
 .two-column-meta-row {
     display: flex;
     flex-direction: row;
@@ -51,11 +52,13 @@
     width: 100%;
     font-family: inherit;
 }
+
 .two-column-title {
     font-size: 1rem;
     font-weight: 600;
     text-align: left;
 }
+
 .two-column-dimension {
     font-size: 0.8rem;
     color: #555;
@@ -186,7 +189,7 @@
     font-size: 1rem;
     font-weight: 600;
     color: #333;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -214,6 +217,31 @@
 }
 
 .store-logo:hover {
+    transform: scale(1.05);
+}
+
+/* Store Badges */
+.store-badges {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+.store-badge-item {
+    flex: 0 0 auto;
+}
+
+.store-badge {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.store-badge:hover {
     transform: scale(1.05);
 }
 
@@ -251,4 +279,11 @@
         height: 32px;
         margin-left: 1rem;
     }
+
+    .store-badges {
+    flex-direction: column;
+    align-items: center;
+        gap: 1rem;
+
+  }
 }

@@ -10,7 +10,7 @@ layout: base
             {% if page.project and page.project != 'none' %}
             <img src="{{ site.data.project[page.project].icon | relative_url }}" 
                  alt="{{ site.data.project[page.project].name }}" 
-                 title="{{ site.data.project[page.project].name }}"
+                 title="Part of {{ site.data.project[page.project].name }}"
                  class="project-icon">
             {% endif %}
         </div>

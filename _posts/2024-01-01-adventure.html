@@ -11,11 +11,11 @@ excerpt: "Showcase of the time-limited single-player Adventure event in Burraco.
 
 <div class="row mb-4">
   <div class="col-lg-4">
-    <p>The <b>Adventure</b> is a time-limited, single-player event that takes place across three distinct
+    <p>The Adventure is a time-limited, single-player event that takes place across three distinct
       worlds. The ultimate goal is to reach the end of these worlds and earn exclusive rewards.</p>
     <p>Progression is structured around levels, each of which must be completed by winning a game of Burraco
-      against an opponent. To enter a level, players must spend a special resource called <b>Steps</b>.</p>
-    <p>Participation in these challenges requires both <b>Steps</b> and <b>Coins</b>. Winning a match rewards
+      against an opponent. To enter a level, players must spend a special resource called <strong>Steps</strong>.</p>
+    <p>Participation in these challenges requires both Steps and Coins. Winning a match rewards
       the player with additional Coins and Steps, allowing them to continue progressing through the adventure.
     </p>
   </div>
@@ -65,9 +65,9 @@ excerpt: "Showcase of the time-limited single-player Adventure event in Burraco.
   </div>
 
   <div class="col-lg-8">
-    <p>One of the key requirements outlined in the Game Design Document (GDD) was the ability to <b>remotely
-        configure both the number of steps</b> a user must complete in each world, as well as <b>the total
-        length of the map</b>. This
+    <p>One of the key requirements outlined in the Game Design Document (GDD) was the ability to remotely
+        configure both the number of steps a user must complete in each world, as well as the total
+        length of the map. This
       flexibility was essential to tailor the experience and balance progression for different user segments.
       For example,
       User A might encounter three worlds with three steps each, while User B could progress through two
@@ -75,10 +75,10 @@ excerpt: "Showcase of the time-limited single-player Adventure event in Burraco.
       with six steps each. It quickly became clear that a static background per world would not meet these
       needs.</p>
 
-    <p>To solve this, I proposed and implemented a <b>procedural generation system</b> that would allow an
+    <p>To solve this, I proposed and implemented a <strong>procedural generation system</strong> that would allow an
       adventure map to be
       dynamically built at runtime. I designed the system to break the map into worlds, and each world into
-      modular <b>tiles</b>.
+      <strong>modular tiles</strong>.
       Tiles are reusable segments of road that could be arranged to form a continuous, coherent path. The only
       constraint I introduced
       was that all tiles within the same world must share a consistent graphical border. This made arbitrary
@@ -92,11 +92,13 @@ excerpt: "Showcase of the time-limited single-player Adventure event in Burraco.
       steps per world
       and procedurally assemble the appropriate tile sequence. Once the layout is generated, a spline is
       created to represent the road connecting all steps.
-      By using ScriptableObjects, I ensured the system could support <b>dynamic updates via AssetBundles or
-        Addressables</b>,
+      By using ScriptableObjects, I ensured the system could support dynamic updates via AssetBundles or
+        Addressables,
       allowing for rapid iteration and easy deployment of new map environments.
     </p>
   </div>
 </div>
 
 {% include software-list.html software=page.software %}
+
+{% include app-list.html %}

@@ -1,0 +1,25 @@
+{% if page.project and page.project != 'none' %}
+{% assign project_data = site.data.project[page.project] %}
+{% if project_data.ios_link or project_data.android_link %}
+<div class="available-on-box">
+  <h3 class="available-on-title">Get the app</h3>
+  <div class="store-badges">
+    {% if project_data.ios_link %}
+    <div class="store-badge-item">
+      <a href="{{ project_data.ios_link }}" target="_blank" rel="noopener noreferrer" title="Download on the App Store">
+        <img src="{{ 'assets/images/external/logo_app_apple.svg' | relative_url }}" alt="Download on the App Store" class="store-badge">
+      </a>
+    </div>
+    {% endif %}
+
+    {% if project_data.android_link %}
+    <div class="store-badge-item">
+      <a href="{{ project_data.android_link }}" target="_blank" rel="noopener noreferrer" title="Get it on Google Play">
+        <img src="{{ 'assets/images/external/logo_app_googleplay.svg' | relative_url }}" alt="Get it on Google Play" class="store-badge">
+      </a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endif %}
+{% endif %}

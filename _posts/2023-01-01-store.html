@@ -1,5 +1,5 @@
 ---
-title: "Store"
+title: "IAP Store"
 date: 2023-01-01
 image: "store/entry.jpg"
 type: "tech"
@@ -11,7 +11,6 @@ excerpt: "A look at the redesigned in-game store for Burraco: how I rebuilt it f
 
 <div class="row mb-4">
   <div class="col-lg-8">
-
     <p>The store is where players can pick up in-game items and resources, either with real money or in-game currency. There’s a bit of everything: special offers, exclusive items, and currency packs.</p>
     <p>This is the latest version of the store, completely redesigned and rebuilt from scratch. The goal was to give it a fresh look and boost monetization. Since most of the logic is on the client side (with just data configuration on the server), I handled the whole build myself, focusing on a few key points:</p>
     <ul>
@@ -21,9 +20,7 @@ excerpt: "A look at the redesigned in-game store for Burraco: how I rebuilt it f
       <li><strong>Section Refreshing:</strong> Each section can update its content on its own—like when an offer expires or a condition changes. The whole store can also update and rearrange itself without a full app reload.</li>
       <li><strong>Section Customization:</strong> Sections like Special Offers are customizable through AssetBundles or Addressables, so new content and updates can go live quickly, without needing a full app release.</li>
     </ul>
-
   </div>
-
   <div class="col-lg-4">
     <div class="video-container-vertical">
       <video autoplay loop muted>
@@ -59,3 +56,5 @@ excerpt: "A look at the redesigned in-game store for Burraco: how I rebuilt it f
 </div>
 
 {% include software-list.html software=page.software %}
+
+{% include app-list.html %}

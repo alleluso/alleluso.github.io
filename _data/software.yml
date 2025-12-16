@@ -11,9 +11,9 @@ unity:
   icon: /assets/images/external/logo_unity.png
   alt: Unity
 unreal:
-  name: Unreal Engine
+  name: Unreal Engine 5
   icon: /assets/images/external/logo_unreal.svg
-  alt: Unreal Engine
+  alt: Unreal Engine 5
 visual_studio:
   name: Visual Studio
   icon: /assets/images/external/logo_visualstudio.png
