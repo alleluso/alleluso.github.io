@@ -625,6 +625,27 @@
 			}
 		}
 	}
+	
+	// Resume button
+	&.resume-box {
+		width: auto;
+		padding: 0 12px;
+		
+		.resume-text {
+			font-size: 16px;
+			font-weight: 900;
+			line-height: 24px;
+			color: #000000;
+			transition: all 0.3s ease;
+		}
+		
+		&:hover {
+			background-color: rgba(0, 119, 181, 0.1);
+			.resume-text {
+				color: $primary;
+			}
+		}
+	}
 }
 
 
