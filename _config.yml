@@ -20,11 +20,7 @@
 
 title: Alessandro Lusetti - Portfolio
 description: >- # this means to ignore newlines until "baseurl:"
-  Portfolio of Alessandro Lusetti, a game developer with seven years of experience
-  building interactive experiences in Unity and Unreal Engine. Specialized in optimizing
-  systems for live-service games, custom shaders, procedural animation, and full-stack
-  development. Exploring the intersection of code and art through 3D modeling, MIDI
-  integration, and creative technical experiments.
+  Senior Unity Game Developer with 7+ years of experience building and maintaining liveservice mobile games. Strong background in client-side architecture, Live-Ops, and full-stack integration, with a focus on performant, visually polished Unity experiences.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://alleluso.github.io" # the base hostname & protocol for your site
 email: alleluso95@gmail.com
@@ -54,7 +50,7 @@ twitter:
 webmaster_verifications:
   google: # Add your Google Search Console verification code here if needed
   
-tagline: Senior Unity Game Developer | Full-Stack Experience | LiveOps Specialist
+tagline: Senior Unity Game Developer | Full-Stack Experience | Tech Art Enthusiast
 
 # Build settings
 
