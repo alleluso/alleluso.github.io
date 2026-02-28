@@ -24,9 +24,6 @@ excerpt: "An experimentation with Unity to create a realistic dice making simula
     <source src="{{ '/assets/images/dicemakersimulator/video1.mp4' | relative_url }}" type="video/mp4">
     Your browser does not support the video tag.
   </video>
-  <div class="media-description">
-    <p>Todo</p>
-  </div>
 </div>
 
 <h3 class="section-title text-black mt-5 mb-3">Dice Volume</h3>
@@ -63,8 +60,18 @@ excerpt: "An experimentation with Unity to create a realistic dice making simula
   A Bounding Volume Hierarchy is a data structure that allows for efficient ray tracing of complex scenes. It works by organizing the geometry of the scene into a tree structure, where each node contains a bounding volume that encloses a subset of the geometry. When a ray is cast, it first checks for intersection with the bounding volumes, and only if it intersects with a bounding volume does it check for intersection with the actual geometry triangle contained within that volume, there we can run the intersection function for a triangle to determine the exact intersection point of the ray. This allows for much faster ray tracing, as it can quickly eliminate large portions of the scene that do not intersect with the ray. I have built a script that generates a BVH for a mesh on the CPU and feeds the data to the shader. This greatly improved performance, allowing real-time rendering of complex dice geometry.
 </p>
 
+<div class="video-container">
+  <video autoplay loop muted>
+    <source src="{{ '/assets/images/dicemakersimulator/video2.mp4' | relative_url }}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <div class="media-description">
+    <p>Debug visualization of the BVH structure.</p>
+  </div>
+</div>
+
 <p>
-  I have tried different algorithms for building the BVH, such as Spatial Median Split and Object Mean Split, but the best results came from using a Surface Area Heuristic (SAH) approach. This method considers the surface area of the bounding volumes when deciding how to split the geometry, leading to a more balanced tree and better performance during ray tracing. Below you can see a visualization of the number of tests required to intersect the triangle using the different approaches. Green is better, red is worse. White exceeds 80 tests.
+  I have tried different algorithms for building the BVH, such as Spatial Median Split and Object Mean Split, but the best results came from using a Surface Area Heuristic (SAH) approach. This method considers the surface area of the bounding volumes when deciding how to split the geometry, leading to a more balanced tree and better performance during ray tracing.
 </p>
 
 <div class="custom-block">
@@ -76,7 +83,7 @@ excerpt: "An experimentation with Unity to create a realistic dice making simula
 
       <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion_1">
         <div class="accordion-body">
-          <p>Splits the bounding box geometry in half along the longest axis. It finds the midpoint of the space by calculating min + (max - min) * 0.5. This divides the spatial volume evenly, regardless of where triangles are actually located.</p>
+          <p>Splits the bounding box geometry in half along the longest axis. This divides the spatial volume evenly, regardless of where triangles are actually located.</p>
         </div>
       </div>
     </div>
@@ -102,19 +109,27 @@ excerpt: "An experimentation with Unity to create a realistic dice making simula
       <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion_1">
         <div class="accordion-body">
           <p>SAH optimizes splits based on predicted traversal cost. It's founded on a key insight: the probability of a ray intersecting a bounding box is proportional to that box's surface area. Using this principle, SAH estimates the cost of any potential split as:
-
-            <p>
-            \[
-            	ext{Cost} = (\text{Surface Area}_{\text{Left}} \times \text{Triangle Count}_{\text{Left}}) + (\text{Surface Area}_{\text{Right}} \times \text{Triangle Count}_{\text{Right}})
-            \]
-            </p>
-
+            <br>
+            <span class="math display">$$
+            	ext{Cost} = (A_L \times N_L) + (A_R \times N_R)
+            $$</span>
+            <ul>
+              <li>$A_L$ = Surface Area of Left Child</li>
+              <li>$N_L$ = Triangle Count in Left Child</li>
+              <li>$A_R$ = Surface Area of Right Child</li>
+              <li>$N_R$ = Triangle Count in Right Child</li>
+            </ul>
+            <br>
             Rather than using a single predetermined split position, SAH evaluates multiple candidate positions along each axis. For each candidate, it calculates how triangles would be distributed and what bounding boxes would result, then computes the expected traversal cost. The split with the lowest cost is selected.</p>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<p>
+Below you can see a visualization of the number of tests required to intersect the triangle using the different approaches. Green is better, red is worse. White exceeds 80 tests. Overall, the SAH approach results in less tests, and therefore better performance.
+</p>
 
 <div class="image-container">
   <a href="{{ '/assets/images/dicemakersimulator/nodes.png' | relative_url }}" data-fancybox="">
@@ -127,5 +142,74 @@ excerpt: "An experimentation with Unity to create a realistic dice making simula
     <img src="{{ '/assets/images/dicemakersimulator/triangles.png' | relative_url }}" alt="Triangles">
   </a>
 </div>
+
+<p>
+While the BVH approach is an improvement on usability, there may still be room for improvement. This approach would work the best when the mesh's triangles are evenly distributed and/or their area is relatively similar. However, if there are large triangles that take up a lot of space and small triangles that are very dense in a small area, the BVH may not perform well, as it may end up with large bounding volumes that contain many triangles, leading to more intersection tests.
+</p>
+
+<h3 class="section-title text-black mt-5 mb-3">Glitter</h3>
+
+<p>
+  Glitter is probably the most common decoration for resin dice, and it can add a lot of visual interest and sparkle to the final product. To achieve this effect I have tried different approaches.
+</p>
+
+<h4 class="section-title text-black mt-5 mb-3">Surface Material</h4>
+
+<p>
+  The first approach was to simply add a glitter texture to the surface material of the dice. This worked well for opaque dice, but for transparent dice it did not look good, as the glitter would not interact with the refraction and internal reflections of the dice, making it look flat and unrealistic.
+</p>
+
+<h4 class="section-title text-black mt-5 mb-3">Mesh</h4>
+
+<p>
+  The second approach was to create a separate mesh for the glitter particles. For this I tried generating the mesh procedurally in Unity and also offline in Blender.
+</p>
+
+<div class="video-container">
+  <video autoplay loop muted>
+    <source src="{{ '/assets/images/dicemakersimulator/video4.mp4' | relative_url }}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <div class="media-description">
+    <p>The mesh, generated in Blender using Geometry Nodes, would scatter hundreds of tiny planes inside the volume of the prism. Each plane would have a value from 0 to 1 in the red vertex color channel, which I could use in the shader to discard or render the glitter based on a glitter count parameter, allowing me to control the density of the glitter dynamically.</p>
+  </div>
+</div>
+
+<p>
+  This approach looked better, however since glitters are inside the resin, they must be refracted as well. At the time I was still experimenting with dice volume. To refract the glitter I have decided to render that mesh separately to a render target and then composite it with offsetting the texture in screen space achieving the effect of each face of the dice distorting the glitter, giving the appearance of refraction. This is only a screen space effect, so it falls short. The glitter did look like it was inside the dice, but it did not look like it was actually refracted by the dice, it looked more like a flat layer of glitter that was distorted by the dice, which is not what I wanted.
+</p>
+
+<h4 class="section-title text-black mt-5 mb-3">Raymarching</h4>
+
+<p>
+  Then I tried integrating the glitter directly into the ray marching shader. This way, the glitters would be fully integrated into the volume of the dice, and would be refracted and reflected along with the rest of the volume. To achieve this, I fed the shader with an array of positions and normals for each glitter particle, and used the intersection function of a disk to render them. It worked very well, but it could only render a couple of hundred glitters before the performance dropped significantly. This is because for each pixel, the shader has to loop through all the glitter particles to check for intersection, add multiple bounces and this gets out of hand very quickly.
+</p>
+
+<h4 class="section-title text-black mt-5 mb-3">Raymarching + Spatial Acceleration</h4>
+
+<p>
+  I really wanted to achieve the integrated ray marching approach, but I needed to find a way to optimize it. I decided to implement a spatial acceleration structure for the glitter particles, similar to the BVH I used for the dice geometry. This way, I could quickly eliminate large numbers of glitter particles that are not relevant for a particular ray, and only check for intersection with the ones that are close to the ray. This greatly improved performance reducing the number of intersection tests from thousands to typically 10-50 per pixel, allowing me to render thousands of glitter particles in real time while maintaining good visual quality.
+</p>
+
+<p>
+  It's not perfect, as it's possible to see glitters being cut in half if they cross the boundary of the spatial partition, but overall it achieves the desired effect of having a large number of glitters fully integrated into the volume of the dice, with good performance.
+</p>
+
+<div class="video-container">
+  <video autoplay loop muted>
+    <source src="{{ '/assets/images/dicemakersimulator/video3.mp4' | relative_url }}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <div class="media-description">
+    <p>5000 glitters. Framerate stays above 100 FPS with spatial acceleration. Tanks below 10 FPS without it. This test does not include the BVH for the dice geometry, so final performance is expected to be lower. Run on a GTX 980 with 4GB VRAM.</p>
+  </div>
+</div>
+
+<h3 class="section-title text-black mt-5 mb-3">Clouds</h3>
+
+
+
+<h3 class="section-title text-black mt-5 mb-3">Frosted Surface</h3>
+
 
 {% include software-list.html software=page.software %}

@@ -38,6 +38,8 @@
   <link rel="stylesheet" href="{{ '/assets/css/timeline.css' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/skill.css' | relative_url }}">
 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+
   <title>{{ page.title }}</title>
 
   {% seo %}
@@ -173,6 +175,12 @@
   <script src="{{ '/assets/js/scrollmagic.animation.gsap.min.js' | relative_url }}"></script>
   <script src="{{ '/assets/js/custom.js' | relative_url }}"></script>
   <script src="{{ '/assets/js/dynamic-year.js' | relative_url }}"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, { delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]});"></script>
 
 </body>
 
