@@ -1,0 +1,131 @@
+---
+title: "Dice Maker Simulator (WIP)"
+date: 2026-02-01
+image: "dicemakersimulator/entry.jpg"
+type: "techart"
+project: "none"
+software:
+- unity
+- blender
+- vscode
+excerpt: "An experimentation with Unity to create a realistic dice making simulator. The project is in early development stages, and currently focuses on achieving high graphical fidelity using URP and custom render features to simulate resin refraction and scattering."
+---
+
+<p>
+  Last year I had discovered Critical Role, a bunch of voice actors playing Dungeons & Dragons, and I got really into it. I had played D&D a bit in the past, but watching them made me want to dive deeper into the it. I quickly became obsessed with the idea of making my own dice. I bought some resin and molds, and started making them as a fun hobby. Some turned out really well, and others not so much, but I had a lot of fun experimenting with different colors, glitters, and even embedding small objects inside the dice.
+</p>
+
+<p>
+  Of course, being a software developer, I couldn't help but think about how I could simulate the dice making process in a digital environment. So I decided to start a small project to create a dice maker simulator in Unity. The idea is to create a realistic simulation of the dice making process, from mixing the resin to pouring it into molds and letting it cure. To start, I had to experiment to see if this level of graphical fidelity was even achievable in real time. I had recently learned about Unity's Scriptable Render Pipeline, and I wanted to see if I could use it to achieve the look I wanted for the resin, which is a key part of the visual appeal of the dice.
+</p>
+
+<div class="video-container">
+  <video autoplay loop muted>
+    <source src="{{ '/assets/images/dicemakersimulator/video1.mp4' | relative_url }}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <div class="media-description">
+    <p>Todo</p>
+  </div>
+</div>
+
+<h3 class="section-title text-black mt-5 mb-3">Dice Volume</h3>
+
+<p>
+  Dices come in different styles and materials, some maybe opaque and with that you can easily get away with a mesh and a fancy surface material, some are transparent and have a lot of internal reflections and refractions, and for those you need to do something more complex. Refraction is not something common in real time graphics, and knowing nothing about it I started my research by looking at how other people have achieved it. I found a website called shadertoy.com, which is a community where people share their shader code and demos, and I found a lot of examples of ray marching shaders that achieve some really impressive refraction effects. There I have found about ray marching, and I was amazed by the possibilities it offers for creating complex materials and effects.
+</p>
+
+<p>
+  The first implementation was very crude. To calculate the geometry of a dice and therefore know when a ray intersects with it, I used intersection functions. The intersection function for a cube is relatively simple, but for other shapes like a d20 or d12 it requires combining multiple intersection functions and performing boolean operations to create the desired shape. The result was good. I had razor sharp prisms with perfect shapes, which I could use to simulate the dice volume.
+</p>
+
+<p>
+  The raymarching implementation is as follows: for each pixel, I cast a ray from the camera and march it through the scene until it intersects with the dice volume. Once I have the intersection point, I use Snell's law to calculate the refraction of the ray as it enters the dice. If the ray goes inside the dice, I start bouncing the ray inside the volume, calculating the refraction and reflection at each intersection until the ray exits the dice or reaches a maximum number of bounces. At specific steps of the ray marching process, I sample the properties of the volume, such as color and density that I can use to calculate the final color of the pixel.
+</p>
+
+<p>
+  The result is a good approximation of the refraction and internal reflections that occur in a transparent dice. And it's not too expensive to run in real time, as intersection functions are relatively cheap to compute, and I can limit the number of bounces to keep the performance in check. The problem with this is that dices have extra geometry that cannot be represented with simple intersection functions. I know, numbers are pretty important on dices right? For my simulator I also want to have the option to customize the numbers, and that means I need to be able to represent them in the ray marching shader. To achieve this, I use signed distance fields (SDFs) to represent the geometry of the numbers.
+</p>
+
+<h4 class="section-title text-black mt-5 mb-3">Signed Distance Fields (SDFs)</h4>
+
+<p>
+  SDFs are a way to represent geometry using a function that returns the distance from any point in space to the nearest surface of the object. This would in theory allow me to represent any shape, you just need to define the SDF function for that shape. My first attempt at this approach was to generate a 3D texture for the SDF of the entire dice, including the numbers. This did not work well. 3D textures are essentially a grid of voxels, and to achieve a good level of detail I needed a very high resolution, especially because the dices have many diagonal edges, which do not alighn well with the grid of the texture. This resulted in a very large texture that was expensive to sample and simply did not look good. Moreover, this was tanking my performance, SDFs are very slow to compute when there are lots of details, and the numbers on the dice have a lot of details. So I had to find another approach.
+</p>
+
+<p>
+  The ideal solution would be to be able to use the intersection function of a triangle and just run it for every triangle of the mesh. This way I can represent any geometry that I export from Blender or that I can even generate procedurally. Just loop through all the triangles and you are fine, right? Wrong... Performance: KILLED. Let's not forget that I'm bouncing the ray inside the dice so the number of ray-triangle intersection tests grows exponentially with the number of bounces, and a dice can easily have 1-3k triangles, depending on the complexity of the font used for the numbers. This approach is simply not feasible for real time rendering.
+</p>
+
+<h4 class="section-title text-black mt-5 mb-3">Bounding Volume Hierarchy (BVH)</h4>
+
+<p>
+  A Bounding Volume Hierarchy is a data structure that allows for efficient ray tracing of complex scenes. It works by organizing the geometry of the scene into a tree structure, where each node contains a bounding volume that encloses a subset of the geometry. When a ray is cast, it first checks for intersection with the bounding volumes, and only if it intersects with a bounding volume does it check for intersection with the actual geometry triangle contained within that volume, there we can run the intersection function for a triangle to determine the exact intersection point of the ray. This allows for much faster ray tracing, as it can quickly eliminate large portions of the scene that do not intersect with the ray. I have built a script that generates a BVH for a mesh on the CPU and feeds the data to the shader. This greatly improved performance, allowing real-time rendering of complex dice geometry.
+</p>
+
+<p>
+  I have tried different algorithms for building the BVH, such as Spatial Median Split and Object Mean Split, but the best results came from using a Surface Area Heuristic (SAH) approach. This method considers the surface area of the bounding volumes when deciding how to split the geometry, leading to a more balanced tree and better performance during ray tracing. Below you can see a visualization of the number of tests required to intersect the triangle using the different approaches. Green is better, red is worse. White exceeds 80 tests.
+</p>
+
+<div class="custom-block">
+  <div class="custom-accordion" id="accordion_1">
+    <div class="accordion-item">
+      <h2 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">Spatial Median Split</button>
+      </h2>
+
+      <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion_1">
+        <div class="accordion-body">
+          <p>Splits the bounding box geometry in half along the longest axis. It finds the midpoint of the space by calculating min + (max - min) * 0.5. This divides the spatial volume evenly, regardless of where triangles are actually located.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Object Mean Split</button>
+      </h2>
+      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion_1">
+        <div class="accordion-body">
+          <p>Splits based on the average position of the triangle centers. It sums all triangle center coordinates along the longest axis and divides by the triangle count. This considers the actual distribution of objects and tries to balance based on where triangles are concentrated.
+
+            Object Mean typically produces better balanced trees when objects are unevenly distributed within the bounding volume.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">Surface Area Heuristic</button>
+      </h2>
+
+      <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion_1">
+        <div class="accordion-body">
+          <p>SAH optimizes splits based on predicted traversal cost. It's founded on a key insight: the probability of a ray intersecting a bounding box is proportional to that box's surface area. Using this principle, SAH estimates the cost of any potential split as:
+
+            <p>
+            \[
+            	ext{Cost} = (\text{Surface Area}_{\text{Left}} \times \text{Triangle Count}_{\text{Left}}) + (\text{Surface Area}_{\text{Right}} \times \text{Triangle Count}_{\text{Right}})
+            \]
+            </p>
+
+            Rather than using a single predetermined split position, SAH evaluates multiple candidate positions along each axis. For each candidate, it calculates how triangles would be distributed and what bounding boxes would result, then computes the expected traversal cost. The split with the lowest cost is selected.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="image-container">
+  <a href="{{ '/assets/images/dicemakersimulator/nodes.png' | relative_url }}" data-fancybox="">
+    <img src="{{ '/assets/images/dicemakersimulator/nodes.png' | relative_url }}" alt="BVH Nodes">
+  </a>
+</div>
+
+<div class="image-container">
+  <a href="{{ '/assets/images/dicemakersimulator/triangles.png' | relative_url }}" data-fancybox="">
+    <img src="{{ '/assets/images/dicemakersimulator/triangles.png' | relative_url }}" alt="Triangles">
+  </a>
+</div>
+
+{% include software-list.html software=page.software %}
