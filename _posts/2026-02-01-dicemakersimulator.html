@@ -1,6 +1,6 @@
 ---
 title: "Dice Maker Simulator (WIP)"
-date: 2026-02-01
+date: 2026-03-01
 image: "dicemakersimulator/entry.jpg"
 type: "techart"
 project: "none"
@@ -8,11 +8,11 @@ software:
 - unity
 - blender
 - vscode
-excerpt: "An experimentation with Unity to create a realistic dice making simulator. The project is in early development stages, and currently focuses on achieving high graphical fidelity using URP and custom render features to simulate resin refraction and scattering."
+excerpt: "An experimentation with Unity to create a realistic dice making simulator. The project is in early development stages, and currently focuses on achieving high graphical fidelity using URP and custom render features to simulate realistic resin role-playing dice."
 ---
 
 <p>
-  Last year I had discovered Critical Role, a bunch of voice actors playing Dungeons & Dragons, and I got really into it. I had played D&D a bit in the past, but watching them made me want to dive deeper into the it. I quickly became obsessed with the idea of making my own dice. I bought some resin and molds, and started making them as a fun hobby. Some turned out really well, and others not so much, but I had a lot of fun experimenting with different colors, glitters, and even embedding small objects inside the dice.
+  Last year I had discovered Critical Role, a bunch of voice actors playing Dungeons & Dragons, and I got really into it. I had played D&D a bit in the past, but watching them made me want to dive deeper into it. I quickly became obsessed with the idea of making my own dice. I bought some resin and molds, and started making them as a fun hobby. Some turned out really well, and others not so much, but I had a lot of fun experimenting with different colors, glitters, and even embedding small objects inside the dice.
 </p>
 
 <p>
@@ -29,11 +29,11 @@ excerpt: "An experimentation with Unity to create a realistic dice making simula
 <h3 class="section-title text-black mt-5 mb-3">Dice Volume</h3>
 
 <p>
-  Dices come in different styles and materials, some maybe opaque and with that you can easily get away with a mesh and a fancy surface material, some are transparent and have a lot of internal reflections and refractions, and for those you need to do something more complex. Refraction is not something common in real time graphics, and knowing nothing about it I started my research by looking at how other people have achieved it. I found a website called shadertoy.com, which is a community where people share their shader code and demos, and I found a lot of examples of ray marching shaders that achieve some really impressive refraction effects. There I have found about ray marching, and I was amazed by the possibilities it offers for creating complex materials and effects.
+  Dice come in different styles and materials, some may be opaque and with that you can easily get away with a mesh and a fancy surface material, some are transparent and have a lot of internal reflections and refractions, and for those you need to do something more complex. Refraction is not something common in real time graphics, and knowing nothing about it I started my research by looking at how other people have achieved it. I quickly ended up on <a href="https://shadertoy.com" target="_blank" rel="noopener">Shader Toy</a>, a community where people share their shader code and demos, and I found a lot of examples of shaders that achieve some really impressive refraction effects. There I have discovered ray marching, and I was amazed by the possibilities it offers for creating complex materials and effects.
 </p>
 
 <p>
-  The first implementation was very crude. To calculate the geometry of a dice and therefore know when a ray intersects with it, I used intersection functions. The intersection function for a cube is relatively simple, but for other shapes like a d20 or d12 it requires combining multiple intersection functions and performing boolean operations to create the desired shape. The result was good. I had razor sharp prisms with perfect shapes, which I could use to simulate the dice volume.
+  My first implementation was very crude. To calculate the geometry of a dice and therefore know when a ray intersects with it, I used intersection functions. The intersection function for a cube is relatively simple, but for other shapes like a d20 or d12 it requires combining multiple intersection functions and performing boolean operations to create the desired shape. The result was good. I had razor sharp prisms with perfect shapes, which I could use to simulate the dice volume.
 </p>
 
 <p>
@@ -41,13 +41,13 @@ excerpt: "An experimentation with Unity to create a realistic dice making simula
 </p>
 
 <p>
-  The result is a good approximation of the refraction and internal reflections that occur in a transparent dice. And it's not too expensive to run in real time, as intersection functions are relatively cheap to compute, and I can limit the number of bounces to keep the performance in check. The problem with this is that dices have extra geometry that cannot be represented with simple intersection functions. I know, numbers are pretty important on dices right? For my simulator I also want to have the option to customize the numbers, and that means I need to be able to represent them in the ray marching shader. To achieve this, I use signed distance fields (SDFs) to represent the geometry of the numbers.
+  The result is a good approximation of the refraction and internal reflections that occur in a transparent dice. And it's not too expensive to run in real time, as intersection functions are relatively cheap to compute, and I can limit the number of bounces to keep the performance in check. The problem with this is that dice have extra geometry that cannot be represented with simple intersection functions. I know, numbers are pretty important on dice, right? For my simulator I also want to have the option to customize the numbers, and that means I need to be able to represent them in the ray marching shader. To achieve this, I use signed distance functions (SDFs) to represent the geometry of the numbers.
 </p>
 
-<h4 class="section-title text-black mt-5 mb-3">Signed Distance Fields (SDFs)</h4>
+<h4 class="section-title text-black mt-5 mb-3">Signed Distance Functions (SDFs)</h4>
 
 <p>
-  SDFs are a way to represent geometry using a function that returns the distance from any point in space to the nearest surface of the object. This would in theory allow me to represent any shape, you just need to define the SDF function for that shape. My first attempt at this approach was to generate a 3D texture for the SDF of the entire dice, including the numbers. This did not work well. 3D textures are essentially a grid of voxels, and to achieve a good level of detail I needed a very high resolution, especially because the dices have many diagonal edges, which do not alighn well with the grid of the texture. This resulted in a very large texture that was expensive to sample and simply did not look good. Moreover, this was tanking my performance, SDFs are very slow to compute when there are lots of details, and the numbers on the dice have a lot of details. So I had to find another approach.
+  SDFs are a way to represent geometry using a function that returns the distance from any point in space to the nearest surface of the object. This would in theory allow me to represent any shape, you just need to define the SDF function for that shape. My first attempt at this approach was to generate a 3D texture for the SDF of the entire dice, including the numbers. This did not work well. 3D textures are essentially a grid of voxels, and to achieve a good level of detail I needed a very high resolution, especially because the dice have many diagonal edges, which do not align well with the grid of the texture. This resulted in a very large texture that was expensive to sample and simply did not look good. Moreover, this was tanking my performance, SDFs are very slow to compute when there are lots of details, and the numbers on the dice have a lot of details. So I had to find another approach.
 </p>
 
 <p>
@@ -61,8 +61,8 @@ excerpt: "An experimentation with Unity to create a realistic dice making simula
 </p>
 
 <div class="video-container">
-  <video autoplay loop muted>
-    <source src="{{ '/assets/images/dicemakersimulator/video2.mp4' | relative_url }}" type="video/mp4">
+  <video autoplay loop muted controls>
+    <source src="{{ '/assets/images/dicemakersimulator/bvh.mp4' | relative_url }}" type="video/mp4">
     Your browser does not support the video tag.
   </video>
   <div class="media-description">
@@ -128,7 +128,7 @@ excerpt: "An experimentation with Unity to create a realistic dice making simula
 </div>
 
 <p>
-Below you can see a visualization of the number of tests required to intersect the triangle using the different approaches. Green is better, red is worse. White exceeds 80 tests. Overall, the SAH approach results in less tests, and therefore better performance.
+Below you can see a visualization of the number of tests required to intersect the triangle using the different approaches. Green is better, red is worse. White exceeds 80 tests. Overall, the SAH approach results in fewer tests, and therefore better performance.
 </p>
 
 <div class="image-container">
@@ -166,8 +166,8 @@ While the BVH approach is an improvement on usability, there may still be room f
 </p>
 
 <div class="video-container">
-  <video autoplay loop muted>
-    <source src="{{ '/assets/images/dicemakersimulator/video4.mp4' | relative_url }}" type="video/mp4">
+  <video autoplay loop muted controls>
+    <source src="{{ '/assets/images/dicemakersimulator/glitter_blender.mp4' | relative_url }}" type="video/mp4">
     Your browser does not support the video tag.
   </video>
   <div class="media-description">
@@ -196,8 +196,8 @@ While the BVH approach is an improvement on usability, there may still be room f
 </p>
 
 <div class="video-container">
-  <video autoplay loop muted>
-    <source src="{{ '/assets/images/dicemakersimulator/video3.mp4' | relative_url }}" type="video/mp4">
+  <video autoplay loop muted controls>
+    <source src="{{ '/assets/images/dicemakersimulator/glitter.mp4' | relative_url }}" type="video/mp4">
     Your browser does not support the video tag.
   </video>
   <div class="media-description">
@@ -205,11 +205,91 @@ While the BVH approach is an improvement on usability, there may still be room f
   </div>
 </div>
 
-<h3 class="section-title text-black mt-5 mb-3">Clouds</h3>
-
-
-
 <h3 class="section-title text-black mt-5 mb-3">Frosted Surface</h3>
 
+<p>
+  An effect I really wanted to achieve was that of unpolished dice. This is a common style for resin dice, where the surface of the dice is not perfectly smooth, but has a frosted or matte finish. My first intuition was to imitate what happens in the real world. A frosted surface has a lot of tiny imperfections that scatter light in different directions, so I took my rays, and instead of following the perfect path of refraction and reflection, I added a random offset to the ray direction at each bounce, simulating the scattering effect of a frosted surface. 
+</p>
+<p>
+  This first attempt created a very noisy and flickering image, as the random offset caused a lot of variation in the ray paths, leading to samples that were very different from each other. I knew this was the right direction, as anything that is part of the ray tracing would automatically work with it, I just needed a way to stabilize the image, so I dove deep into "denoise" research.
+</p>
+
+<h4 class="section-title text-black mt-5 mb-3">Super Sampling</h4>
+
+<p>
+  The first approach I tried was super sampling. Instead of casting one ray per pixel, I cast multiple rays with slightly different random offsets and averaged the results. This helped to reduce the noise, but it also significantly increased the rendering time, as I was now casting multiple rays for each pixel, and the performance dropped too much to be viable for real-time rendering.
+</p>
+
+<h4 class="section-title text-black mt-5 mb-3">Blue Noise</h4>
+
+<div class="row mb-4 align-items-start">
+  <div class="col-lg-8">
+    <p>
+      The second approach was to try and stabilize the offset. Instead of using a completely random offset for each ray, I used a blue noise texture mapped to the screen to decide the scatter direction. This way, the offset would be stable across frames, reducing the noise flickering without the need for super sampling. This approach was better but it still had some issues, and it did not completely eliminate the noise, especially in areas where the color and brightness of the samples varied a lot, such as the glitter particles, which are very bright and can create a lot of contrast with the surrounding areas, making the noise more noticeable.
+    </p>
+  </div>
+  <div class="col-lg-4">
+    <div class="image-container mt-0">
+        <img src="{{ '/assets/images/dicemakersimulator/blue_noise.png' | relative_url }}" alt="Blue Noise">
+    </div>
+  </div>
+</div>
+
+<h4 class="section-title text-black mt-5 mb-3">Temporal Accumulation</h4>
+
+<div class="row mb-4 align-items-start">
+  <div class="col-lg-8">
+    <p>
+      The third approach was to use temporal accumulation. Instead of trying to reduce the noise in a single frame, I accumulated the results of multiple frames over time. This way, the noise would average out, and the image would become progressively smoother. This approach worked well for static scenes, and it required a lot of frames to converge. The result was a very stable image, with the best frosted effect look, however, it completely broke down when there was any movement in the scene, as the accumulated samples would no longer be valid, resulting in a complete mess of ghosting and trails.
+    </p>
+    <p>
+        Looking online, I found out about <a href="https://gpuopen.com/fidelityfx-denoiser/" target="_blank" rel="noopener">AMD's FidelityFX Denoiser</a>, which uses a combination of spatial and temporal denoising techniques to achieve good results even in dynamic scenes. I have tried to port it to Unity, using a custom render pass, but I was unable to make it work and I did not want to spend too much time on this.
+    </p>
+  </div>
+  <div class="col-lg-4">
+    <div class="image-container mt-0">
+        <img src="{{ '/assets/images/dicemakersimulator/temporal_accumulation.png' | relative_url }}" alt="Temporal Accumulation">
+    </div>
+  </div>
+</div>
+
+<h4 class="section-title text-black mt-5 mb-3">Blur</h4>
+
+<p>
+  The final approach I tried was to apply a blur to the image after the blue noise scattering. This way, I could smooth out the noise without the need for super sampling or temporal accumulation. This approach worked decently well, as it was able to reduce the noise while maintaining good performance, but it also had some drawbacks, as it could make the image look a bit blurry and it did not completely eliminate the noise, especially in areas with high contrast, such as the glitter particles.
+</p>
+
+<div class="video-container">
+  <video autoplay loop muted controls>
+    <source src="{{ '/assets/images/dicemakersimulator/roughness.mp4' | relative_url }}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</div>
+
+<h3 class="section-title text-black mt-5 mb-3">Clouds</h3>
+
+<p>
+  Another effect I wanted to achieve was the cloudy effect that some resin dice have. This is usually achieved by dropping a few drops of white alcohol ink into the resin before it cures, creating a swirling pattern that gives the dice a cloudy appearance. To achieve this effect, I looked into volumetric rendering techniques and the rendering of clouds in games.
+</p>
+
+<p>
+  On the same raymarching loop that I use for the dice volume, I also sample the density of a 3D texture that contains the pattern of my clouds. As the ray marches through the dice, I accumulate the density of the clouds along the ray, and use that to calculate the final color of the pixel by blending between the color of the resin and the reflection and the color of the clouds.
+</p>
+
+<div class="row mb-4 align-items-start">
+  <div class="col-lg-8">
+    <p>
+      To increase the realism, I also simulate the scattering of the main light within the clouds. This is achieved by shooting an additional ray from the sample point towards the main light source, and using the distance to the surface of the dice to approximate the scattering and accumulation of light within the clouds, giving them a more realistic appearance. 
+    </p>
+    <p>
+      The density of the cloud does not affect the light accumulation. I have tried it, but it turned out too expensive, as it requires to sample the 3D texture multiple times along the light ray, exponentially increasing the number of samples and therefore the rendering time. While increasing fidelity is always nice, I had to make some sacrifices to keep the performance in check, and this was one of them.
+    </p>
+  </div>
+  <div class="col-lg-4">
+    <div class="image-container mt-0">
+        <img src="{{ '/assets/images/dicemakersimulator/light_march.png' | relative_url }}" alt="Light Ray Tracing">
+    </div>
+  </div>
+</div>
 
 {% include software-list.html software=page.software %}
