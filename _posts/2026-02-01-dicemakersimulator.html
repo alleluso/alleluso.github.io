@@ -41,7 +41,7 @@ excerpt: "An experimentation with Unity to create a realistic dice making simula
 </p>
 
 <p>
-  The result is a good approximation of the refraction and internal reflections that occur in a transparent dice. And it's not too expensive to run in real time, as intersection functions are relatively cheap to compute, and I can limit the number of bounces to keep the performance in check. The problem with this is that dice have extra geometry that cannot be represented with simple intersection functions. I know, numbers are pretty important on dice, right? For my simulator I also want to have the option to customize the numbers, and that means I need to be able to represent them in the ray marching shader. To achieve this, I use signed distance functions (SDFs) to represent the geometry of the numbers.
+  The result is a good approximation of the refraction and internal reflections that occur in a transparent dice. And it's not too expensive to run in real time, as intersection functions are relatively cheap to compute, and I can limit the number of bounces to keep the performance in check. The problem with this is that dice have extra geometry that cannot be represented with simple intersection functions. I know, numbers are pretty important on dice, right? For my simulator I also want to have the option to customize the numbers, and that means I need to be able to represent them in the ray marching shader.
 </p>
 
 <h4 class="section-title text-black mt-5 mb-3">Signed Distance Functions (SDFs)</h4>
@@ -57,7 +57,7 @@ excerpt: "An experimentation with Unity to create a realistic dice making simula
 <h4 class="section-title text-black mt-5 mb-3">Bounding Volume Hierarchy (BVH)</h4>
 
 <p>
-  A Bounding Volume Hierarchy is a data structure that allows for efficient ray tracing of complex scenes. It works by organizing the geometry of the scene into a tree structure, where each node contains a bounding volume that encloses a subset of the geometry. When a ray is cast, it first checks for intersection with the bounding volumes, and only if it intersects with a bounding volume does it check for intersection with the actual geometry triangle contained within that volume, there we can run the intersection function for a triangle to determine the exact intersection point of the ray. This allows for much faster ray tracing, as it can quickly eliminate large portions of the scene that do not intersect with the ray. I have built a script that generates a BVH for a mesh on the CPU and feeds the data to the shader. This greatly improved performance, allowing real-time rendering of complex dice geometry.
+  A Bounding Volume Hierarchy is a data structure that allows for efficient ray tracing of complex scenes. It works by organizing the geometry of the scene into a tree structure, where each node contains a bounding volume that encloses a subset of the geometry. When a ray is cast, it first checks for intersection with the bounding volumes, and only if it intersects with a bounding volume does it check for intersection with the actual geometry triangle contained within that volume, there we can run the intersection function for a triangle to determine the exact intersection point of the ray. This allows for much faster ray tracing, as it can quickly eliminate large portions of the mesh that do not intersect with the ray. I have built a script that generates a BVH for a mesh on the CPU and feeds the data to the shader. This greatly improved performance, allowing real-time rendering of complex dice geometry.
 </p>
 
 <div class="video-container">
@@ -111,16 +111,16 @@ excerpt: "An experimentation with Unity to create a realistic dice making simula
           <p>SAH optimizes splits based on predicted traversal cost. It's founded on a key insight: the probability of a ray intersecting a bounding box is proportional to that box's surface area. Using this principle, SAH estimates the cost of any potential split as:
             <br>
             <span class="math display">$$
-            	ext{Cost} = (A_L \times N_L) + (A_R \times N_R)
-            $$</span>
-            <ul>
-              <li>$A_L$ = Surface Area of Left Child</li>
-              <li>$N_L$ = Triangle Count in Left Child</li>
-              <li>$A_R$ = Surface Area of Right Child</li>
-              <li>$N_R$ = Triangle Count in Right Child</li>
-            </ul>
-            <br>
-            Rather than using a single predetermined split position, SAH evaluates multiple candidate positions along each axis. For each candidate, it calculates how triangles would be distributed and what bounding boxes would result, then computes the expected traversal cost. The split with the lowest cost is selected.</p>
+              ext{Cost} = (A_L \times N_L) + (A_R \times N_R)
+              $$</span>
+          <ul>
+            <li>$A_L$ = Surface Area of Left Child</li>
+            <li>$N_L$ = Triangle Count in Left Child</li>
+            <li>$A_R$ = Surface Area of Right Child</li>
+            <li>$N_R$ = Triangle Count in Right Child</li>
+          </ul>
+          <br>
+          Rather than using a single predetermined split position, SAH evaluates multiple candidate positions along each axis. For each candidate, it calculates how triangles would be distributed and what bounding boxes would result, then computes the expected traversal cost. The split with the lowest cost is selected.</p>
         </div>
       </div>
     </div>
@@ -128,7 +128,7 @@ excerpt: "An experimentation with Unity to create a realistic dice making simula
 </div>
 
 <p>
-Below you can see a visualization of the number of tests required to intersect the triangle using the different approaches. Green is better, red is worse. White exceeds 80 tests. Overall, the SAH approach results in fewer tests, and therefore better performance.
+  Below you can see a visualization of the number of tests required to intersect the triangle using the different approaches. Green is better, red is worse. White exceeds 80 tests. Overall, the SAH approach results in fewer tests, and therefore better performance.
 </p>
 
 <div class="image-container">
@@ -144,7 +144,7 @@ Below you can see a visualization of the number of tests required to intersect t
 </div>
 
 <p>
-While the BVH approach is an improvement on usability, there may still be room for improvement. This approach would work the best when the mesh's triangles are evenly distributed and/or their area is relatively similar. However, if there are large triangles that take up a lot of space and small triangles that are very dense in a small area, the BVH may not perform well, as it may end up with large bounding volumes that contain many triangles, leading to more intersection tests.
+  While the BVH approach is an improvement on usability, there may still be room for improvement. This approach would work the best when the mesh's triangles are evenly distributed and/or their area is relatively similar. However, if there are large triangles that take up a lot of space and small triangles that are very dense in a small area, the BVH may not perform well, as it may end up with large bounding volumes that contain many triangles, leading to more intersection tests.
 </p>
 
 <h3 class="section-title text-black mt-5 mb-3">Glitter</h3>
@@ -176,23 +176,23 @@ While the BVH approach is an improvement on usability, there may still be room f
 </div>
 
 <p>
-  This approach looked better, however since glitters are inside the resin, they must be refracted as well. At the time I was still experimenting with dice volume. To refract the glitter I have decided to render that mesh separately to a render target and then composite it with offsetting the texture in screen space achieving the effect of each face of the dice distorting the glitter, giving the appearance of refraction. This is only a screen space effect, so it falls short. The glitter did look like it was inside the dice, but it did not look like it was actually refracted by the dice, it looked more like a flat layer of glitter that was distorted by the dice, which is not what I wanted.
+  This approach looked better, however since glitters are inside the resin, they must be refracted as well. At the time I was still experimenting with dice volume. To refract the glitter I have tried to render that mesh separately to a render target and then distort the UV of that render target based on the screen space normals of the dice, to give the illusion of refraction. This is only a screen space effect, so it falls short. The glitter did look like it was inside the dice, but it did not look like it was actually refracted by the dice.
 </p>
 
 <h4 class="section-title text-black mt-5 mb-3">Raymarching</h4>
 
 <p>
-  Then I tried integrating the glitter directly into the ray marching shader. This way, the glitters would be fully integrated into the volume of the dice, and would be refracted and reflected along with the rest of the volume. To achieve this, I fed the shader with an array of positions and normals for each glitter particle, and used the intersection function of a disk to render them. It worked very well, but it could only render a couple of hundred glitters before the performance dropped significantly. This is because for each pixel, the shader has to loop through all the glitter particles to check for intersection, add multiple bounces and this gets out of hand very quickly.
+  The next step was integrating the glitters directly into the ray marching shader. This way, the glitters would be fully integrated into the volume of the dice, and would be refracted and reflected along with the rest of the volume. To achieve this, I fed the shader with an array of positions and normals for each particle, and used the intersection function of a disk to render them. It worked very well, but it could only render a couple of hundred glitters before the performance dropped significantly. This is because, for each pixel, the shader has to loop through all the glitter particles to check for intersection, add multiple bounces and this gets out of hand very quickly.
 </p>
 
 <h4 class="section-title text-black mt-5 mb-3">Raymarching + Spatial Acceleration</h4>
 
 <p>
-  I really wanted to achieve the integrated ray marching approach, but I needed to find a way to optimize it. I decided to implement a spatial acceleration structure for the glitter particles, similar to the BVH I used for the dice geometry. This way, I could quickly eliminate large numbers of glitter particles that are not relevant for a particular ray, and only check for intersection with the ones that are close to the ray. This greatly improved performance reducing the number of intersection tests from thousands to typically 10-50 per pixel, allowing me to render thousands of glitter particles in real time while maintaining good visual quality.
+  I really wanted to keep the raymarching approach, but I needed to find a way to optimize it. I decided to implement a spatial acceleration structure for the glitter particles, similar to the BVH I used for the dice geometry. This way, I could quickly eliminate large numbers of glitter particles that are not relevant for a particular ray, and only check for intersection with the ones that are close to the ray. This greatly improved performance reducing the number of intersection tests from thousands to typically 10-50 per pixel, allowing me to render thousands of glitter particles in real time while maintaining good visual quality.
 </p>
 
 <p>
-  It's not perfect, as it's possible to see glitters being cut in half if they cross the boundary of the spatial partition, but overall it achieves the desired effect of having a large number of glitters fully integrated into the volume of the dice, with good performance.
+  It's not perfect, as it's possible to see glitters being cut in half if they cross the boundary of their spatial partition, but overall it achieves the desired effect of having a large number of glitters fully integrated into the volume of the dice.
 </p>
 
 <div class="video-container">
@@ -201,95 +201,202 @@ While the BVH approach is an improvement on usability, there may still be room f
     Your browser does not support the video tag.
   </video>
   <div class="media-description">
-    <p>5000 glitters. Framerate stays above 100 FPS with spatial acceleration. Tanks below 10 FPS without it. This test does not include the BVH for the dice geometry, so final performance is expected to be lower. Run on a GTX 980 with 4GB VRAM.</p>
+    <p>5000 glitters. Framerate stays above 100 FPS with spatial acceleration. Tanks below 10 FPS without it. This test does not include the BVH for the dice geometry, so final performance is expected to be lower.</p>
   </div>
 </div>
 
 <h3 class="section-title text-black mt-5 mb-3">Frosted Surface</h3>
 
-<p>
-  An effect I really wanted to achieve was that of unpolished dice. This is a common style for resin dice, where the surface of the dice is not perfectly smooth, but has a frosted or matte finish. My first intuition was to imitate what happens in the real world. A frosted surface has a lot of tiny imperfections that scatter light in different directions, so I took my rays, and instead of following the perfect path of refraction and reflection, I added a random offset to the ray direction at each bounce, simulating the scattering effect of a frosted surface. 
-</p>
-<p>
-  This first attempt created a very noisy and flickering image, as the random offset caused a lot of variation in the ray paths, leading to samples that were very different from each other. I knew this was the right direction, as anything that is part of the ray tracing would automatically work with it, I just needed a way to stabilize the image, so I dove deep into "denoise" research.
-</p>
+<div class="row mb-4 align-items-start">
+  <div class="col-lg-8">
+    <p>
+      An effect I really wanted to achieve was that of unpolished dice. This is a common style for resin dice, where the surface of the dice is not perfectly smooth, but has a frosted or matte finish. My first intuition was to imitate what happens in the real world. A frosted surface has a lot of tiny imperfections that scatter light in different directions, so I took the rays, and instead of following the perfect path of refraction and reflection, I added a random offset to the ray direction, simulating the scattering effect that would occur on a frosted surface.
+    </p>
+    <p>
+      This first attempt created a very noisy and flickering image, as the random offset caused a lot of variation in the ray paths, leading to samples that were very different from each other. I knew this was the right direction, as anything that is part of the raymarching process would automatically work with it, I just needed a way to stabilize the image.
+    </p>
+  </div>
+  <div class="col-lg-4">
+    <div class="video-container mt-0">
+      <video autoplay loop muted>
+        <source src="{{ '/assets/images/dicemakersimulator/roughness_demo.mp4' | relative_url }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+</div>
 
 <h4 class="section-title text-black mt-5 mb-3">Super Sampling</h4>
 
 <p>
-  The first approach I tried was super sampling. Instead of casting one ray per pixel, I cast multiple rays with slightly different random offsets and averaged the results. This helped to reduce the noise, but it also significantly increased the rendering time, as I was now casting multiple rays for each pixel, and the performance dropped too much to be viable for real-time rendering.
+  The first approach I tried was super sampling. Instead of casting one ray per pixel, I cast multiple rays with slightly different random offsets and averaged the results. This helped to reduce the noise, but many samples per pixel were needed to smooth out the result, significantly increasing the rendering time, and the performance dropped too much to be viable for real-time rendering.
 </p>
 
-<h4 class="section-title text-black mt-5 mb-3">Blue Noise</h4>
-
-<div class="row mb-4 align-items-start">
+<!-- <div class="row mb-4 align-items-start">
   <div class="col-lg-8">
     <p>
-      The second approach was to try and stabilize the offset. Instead of using a completely random offset for each ray, I used a blue noise texture mapped to the screen to decide the scatter direction. This way, the offset would be stable across frames, reducing the noise flickering without the need for super sampling. This approach was better but it still had some issues, and it did not completely eliminate the noise, especially in areas where the color and brightness of the samples varied a lot, such as the glitter particles, which are very bright and can create a lot of contrast with the surrounding areas, making the noise more noticeable.
+      The first approach I tried was super sampling. Instead of casting one ray per pixel, I cast multiple rays with slightly different random offsets and averaged the results. This helped to reduce the noise, but many samples per pixel were needed to smooth out the result, significantly increasing the rendering time, and the performance dropped too much to be viable for real-time rendering.
     </p>
   </div>
   <div class="col-lg-4">
     <div class="image-container mt-0">
-        <img src="{{ '/assets/images/dicemakersimulator/blue_noise.png' | relative_url }}" alt="Blue Noise">
+      <img src="{{ '/assets/images/dicemakersimulator/blue_noise.png' | relative_url }}" alt="Blue Noise">
     </div>
   </div>
-</div>
+</div> -->
 
 <h4 class="section-title text-black mt-5 mb-3">Temporal Accumulation</h4>
 
-<div class="row mb-4 align-items-start">
+<p>
+  The second approach was to use temporal accumulation. Instead of trying to reduce the noise in a single frame, I accumulated the results of multiple frames over time. This way, the noise would average out, and the image would become progressively smoother. This approach worked well for static scenes, and it required a lot of frames to converge. The result was a very stable image, with the best frosted look, however, it completely broke down when there was any movement in the scene, as the accumulated samples would no longer be valid, resulting in a complete mess of ghosting and trails.
+</p>
+<p>
+  Looking online, I found out about <a href="https://gpuopen.com/fidelityfx-denoiser/" target="_blank" rel="noopener">AMD's FidelityFX Denoiser</a>, which uses a combination of denoising techniques such as reprojection to achieve good results even in dynamic scenes. I have tried to port it to Unity, using a custom render pass, but I was unable to make it work and I did not want to spend too much time on this.
+</p>
+
+<!-- <div class="row mb-4 align-items-start">
   <div class="col-lg-8">
     <p>
-      The third approach was to use temporal accumulation. Instead of trying to reduce the noise in a single frame, I accumulated the results of multiple frames over time. This way, the noise would average out, and the image would become progressively smoother. This approach worked well for static scenes, and it required a lot of frames to converge. The result was a very stable image, with the best frosted effect look, however, it completely broke down when there was any movement in the scene, as the accumulated samples would no longer be valid, resulting in a complete mess of ghosting and trails.
+      The second approach was to use temporal accumulation. Instead of trying to reduce the noise in a single frame, I accumulated the results of multiple frames over time. This way, the noise would average out, and the image would become progressively smoother. This approach worked well for static scenes, and it required a lot of frames to converge. The result was a very stable image, with the best frosted effect look, however, it completely broke down when there was any movement in the scene, as the accumulated samples would no longer be valid, resulting in a complete mess of ghosting and trails.
     </p>
     <p>
-        Looking online, I found out about <a href="https://gpuopen.com/fidelityfx-denoiser/" target="_blank" rel="noopener">AMD's FidelityFX Denoiser</a>, which uses a combination of spatial and temporal denoising techniques to achieve good results even in dynamic scenes. I have tried to port it to Unity, using a custom render pass, but I was unable to make it work and I did not want to spend too much time on this.
+      Looking online, I found out about <a href="https://gpuopen.com/fidelityfx-denoiser/" target="_blank" rel="noopener">AMD's FidelityFX Denoiser</a>, which uses a combination of spatial and temporal denoising techniques to achieve good results even in dynamic scenes. I have tried to port it to Unity, using a custom render pass, but I was unable to make it work and I did not want to spend too much time on this.
     </p>
   </div>
   <div class="col-lg-4">
     <div class="image-container mt-0">
-        <img src="{{ '/assets/images/dicemakersimulator/temporal_accumulation.png' | relative_url }}" alt="Temporal Accumulation">
+      <img src="{{ '/assets/images/dicemakersimulator/temporal_accumulation.png' | relative_url }}" alt="Temporal Accumulation">
     </div>
   </div>
-</div>
+</div> -->
 
-<h4 class="section-title text-black mt-5 mb-3">Blur</h4>
+<h4 class="section-title text-black mt-5 mb-3">Blur Pass + Blue Noise</h4>
 
 <p>
-  The final approach I tried was to apply a blur to the image after the blue noise scattering. This way, I could smooth out the noise without the need for super sampling or temporal accumulation. This approach worked decently well, as it was able to reduce the noise while maintaining good performance, but it also had some drawbacks, as it could make the image look a bit blurry and it did not completely eliminate the noise, especially in areas with high contrast, such as the glitter particles.
+  The final approach I tried was to apply a blur filter to the image after scattering the rays using a blue noise pattern. Blue noise is a type of noise with minimal low-frequency components, which makes it ideal for dithering, as it distributes the noise more evenly across the image. This approach worked better than I thought, as it was able to reduce the noise while maintaining good performance, it's still not perfect and it still shows some noise, especially in areas with high contrast, such as the glitter particles.
+</p>
+<p>
+  Only the dice volume is blurred. This is achieved by rendering the raymarched volume to a separate pass, downsampling it to half resolution and then applying a blur filter on it. The dice surface is then composited on top of the image on a following pass, this way it remains sharp.
 </p>
 
-<div class="video-container">
-  <video autoplay loop muted controls>
-    <source src="{{ '/assets/images/dicemakersimulator/roughness.mp4' | relative_url }}" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-</div>
+<!-- <div class="row mb-4 align-items-start">
+  <div class="col-lg-8">
+    <p>
+      The final approach I tried was to apply a blur filter to the image after scattering the rays using a blue noise pattern. Blue noise is a type of noise with minimal low-frequency components, which makes it ideal for dithering, as it distributes the noise more evenly across the image. This approach worked better than I thought, as it was able to reduce the noise while maintaining good performance, it's still not perfect and it still shows some noise, especially in areas with high contrast, such as the glitter particles.
+    </p>
+    <p>
+      Only the dice volume is blurred. This is achieved by rendering the ray traced volume to a separate pass, downsampling it to half resolution and then applying a blur filter on it. The dice surface is then composited on top of the image on a following pass, this way it remains sharp.
+    </p>
+  </div>
+    <div class="col-lg-4">
+    <div class="video-container mt-0">
+      <video autoplay loop muted>
+        <source src="{{ '/assets/images/dicemakersimulator/roughness_demo.mp4' | relative_url }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+</div> -->
 
 <h3 class="section-title text-black mt-5 mb-3">Clouds</h3>
 
-<p>
-  Another effect I wanted to achieve was the cloudy effect that some resin dice have. This is usually achieved by dropping a few drops of white alcohol ink into the resin before it cures, creating a swirling pattern that gives the dice a cloudy appearance. To achieve this effect, I looked into volumetric rendering techniques and the rendering of clouds in games.
-</p>
+<div class="row mb-4 align-items-start">
+  <div class="col-lg-8">
+    <p>
+      Another effect I wanted to achieve was the cloudy effect that some resin dice have. This is usually achieved by dropping a few drops of white (or colored) alcohol ink into the resin before it cures, creating a swirling pattern that gives the dice a cloudy appearance. To achieve this effect, I looked into volumetric rendering techniques and the rendering of clouds in games.
+    </p>
 
-<p>
-  On the same raymarching loop that I use for the dice volume, I also sample the density of a 3D texture that contains the pattern of my clouds. As the ray marches through the dice, I accumulate the density of the clouds along the ray, and use that to calculate the final color of the pixel by blending between the color of the resin and the reflection and the color of the clouds.
-</p>
+    <p>
+      On the same raymarching loop that I use for the dice volume, I also sample the density of a 3D texture that contains the pattern of my clouds. As the ray marches through the dice, I accumulate the density of the clouds along the ray, and use that to calculate the final color of the pixel by blending between the color of the resin and the color of the clouds.
+    </p>
+  </div>
+  <div class="col-lg-4">
+    <div class="video-container mt-0">
+      <video autoplay loop muted>
+        <source src="{{ '/assets/images/dicemakersimulator/clouds_demo.mp4' | relative_url }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+</div>
 
 <div class="row mb-4 align-items-start">
   <div class="col-lg-8">
     <p>
-      To increase the realism, I also simulate the scattering of the main light within the clouds. This is achieved by shooting an additional ray from the sample point towards the main light source, and using the distance to the surface of the dice to approximate the scattering and accumulation of light within the clouds, giving them a more realistic appearance. 
+      To increase the realism, I also simulate the scattering of the main light within the clouds. This is achieved by shooting an additional ray from the sample point towards the main light source, and using the distance to the surface of the dice to approximate the scattering and accumulation of light within the clouds, making the areas closer to the surface appear brighter.
     </p>
     <p>
-      The density of the cloud does not affect the light accumulation. I have tried it, but it turned out too expensive, as it requires to sample the 3D texture multiple times along the light ray, exponentially increasing the number of samples and therefore the rendering time. While increasing fidelity is always nice, I had to make some sacrifices to keep the performance in check, and this was one of them.
+      The density of the cloud does not affect the light accumulation. I have tried it, but it turned out too expensive (see Performance section), as it requires to sample the 3D texture multiple times along the light ray, exponentially increasing the number of samples and therefore the rendering time. While increasing fidelity is always nice, I had to make some sacrifices to keep the performance in check, and this was one of them.
     </p>
   </div>
   <div class="col-lg-4">
     <div class="image-container mt-0">
-        <img src="{{ '/assets/images/dicemakersimulator/light_march.png' | relative_url }}" alt="Light Ray Tracing">
+      <img src="{{ '/assets/images/dicemakersimulator/light_march.png' | relative_url }}" alt="Light Marching">
     </div>
   </div>
 </div>
+
+<h3 class="section-title text-black mt-5 mb-3">Mica Powder</h3>
+
+<div class="row mb-4 align-items-start">
+  <div class="col-lg-8">
+    <p>
+      When making my dice, I usually also add mica powder to create a shimmering effect. Mica powder is a fine, reflective powder that can be mixed into the resin to give the dice a sparkling appearance. I decided to try to implement this effect as well.
+    </p>
+    <p>
+      The mica effect fills the dice interior volume with a procedural field of tiny virtual mirror platelets. Each platelet gets a random-but-stable orientation derived from its 3D grid cell, so the shimmer holds still in space and only changes as the viewing angle shifts. As the ray marches through the resin, each step reflects the view direction off the local flake and samples the environment cubemap (the same path used by glitter) then accumulates the result weighted by transparency so deeper flakes appear dimmer.
+    </p>
+    <p>
+      Each flake's color is driven by how directly it faces the camera: head-on flakes show the "face" color, while edge-on flakes shift toward the "flop" color, mimicking the angle-dependent color flip of real pearlescent powders. An optional hue spread parameter then rotates each flake's color independently around the luminance-neutral axis, so neighbouring flakes can display subtly different hues, recreating the multi-colored rainbow glint of natural muscovite mica or synthetic pearl pigment.
+    </p>
+  </div>
+  <div class="col-lg-4">
+    <div class="video-container mt-0">
+      <video autoplay loop muted>
+        <source src="{{ '/assets/images/dicemakersimulator/mica_demo.mp4' | relative_url }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+</div>
+
+<h3 class="section-title text-black mt-5 mb-3">Mylar Sheet</h3>
+
+<div class="row mb-4 align-items-start">
+  <div class="col-lg-8">
+    <p>
+      I have seen dice makers embedding crumpled pieces of mylar sheets into the resin to create a holographic effect. I wanted to try to simulate this effect as well.
+    </p>
+    <p>
+      The effect is achieved by raymarching a sphere (using SDFs) that is displaced by procedural noise inside the dice. Once the sphere is UV mapped, I apply a normal map that simulates the crumpled effect of the mylar sheet. I can then use the normal map to reflect the environment cubemap, giving me a sort of crumpled mirror effect. I then use a texture with a rainbow gradient to sample the color based on the normal of the surface, creating a holographic effect that changes color as the viewing angle shifts.
+    </p>
+    <p>
+      This effect is quite expensive, as it requires raymarching a complex SDF. I have added the ability to switch to a simpler version that uses the intersection function of a sphere, which is much cheaper to compute, and while it still works well with the normal map, it lacks the procedural noise that distorts the sphere and therefore can make the effect look too uniform.
+    </p>
+  </div>
+  <div class="col-lg-4">
+    <div class="video-container mt-0">
+      <video autoplay loop muted>
+        <source src="{{ '/assets/images/dicemakersimulator/mylar_demo.mp4' | relative_url }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+</div>
+
+<h3 class="section-title text-black mt-5 mb-3">Performance</h3>
+
+<p>
+  The current setup is running above 60 FPS in fullscreen, with the dice shader never covering more than 35% of the screen on the following hardware:
+</p>
+<ul>
+  <li>GPU: GTX 980 with 4GB VRAM</li>
+  <li>CPU: Intel Core i7-6700</li>
+  <li>RAM: 32GB DDR3</li>
+</ul>
+
+<p>
+  I'm very happy with the results, as I was able to render these complex effects in real time on old hardware. The GPU is more than 10 years old, and I'm wondering how well this would run on modern hardware, especially with the latest ray tracing capabilities of newer GPUs.
+</p>
 
 {% include software-list.html software=page.software %}
