@@ -33,31 +33,34 @@ excerpt: "An experimentation with Unity to create a realistic dice making simula
 </p>
 
 <p>
-  My first implementation was very crude. To calculate the geometry of a dice and know when a ray intersects with it, I used intersection functions. The intersection function for a cube is relatively simple, but for other shapes like a d20 or d12, it requires combining multiple intersection functions and performing boolean operations to create the desired shape. The result was good. I had razor-sharp prisms with perfect shapes that I could use to simulate the dice volume.
+  In order to compute a volume you need a 3D shape. For my first attempt I used intersection functions. The intersection function for a cube is relatively simple, but for other shapes like a d20 or d12, it requires combining multiple intersection functions and performing boolean operations to create the desired shape. The result was good. I had razor-sharp prisms with perfect edges that I could use to simulate the dice volume.
 </p>
 
 <p>
-  The ray-marching implementation is as follows: for each pixel, I cast a ray from the camera and march it through the scene until it intersects with the dice volume. Once I have the intersection point, I use Snell's law to calculate the refraction of the ray as it enters the dice. If the ray goes inside the dice, I bounce the ray inside the volume, calculating the refraction and reflection at each intersection until the ray exits the dice or reaches a maximum number of bounces. At specific steps of the ray marching process, I sample the properties of the volume, such as color and density, so I can calculate the final color of the pixel.
+  The ray-marching implementation is as follows: for each pixel, I cast a ray from the camera and march it through the scene until it intersects with the dice. Once I have the intersection point, I use Snell's law to calculate the refraction of the ray as it enters the dice. If the ray goes inside the dice, I bounce the ray inside the volume, calculating the refraction and reflection at each intersection until the ray exits the dice or reaches a maximum number of bounces. At specific steps of the ray marching process, I sample the properties of the volume, such as color and density, so I can calculate the final color of the pixel.
 </p>
 
 <p>
-  The result is a good approximation of the refraction and internal reflections that occur in a transparent dice. And it's not too expensive to run in real-time, as intersection functions are relatively cheap to compute, and I can limit the number of bounces to keep the performance in check. The problem with this is that dice have extra geometry that cannot be represented with simple intersection functions. I know—numbers are pretty important on dice, right? For my simulator, I also want the option to customize the numbers, and that means I need to be able to represent them in the ray-marching shader.
+  The result is a good approximation of the refraction and internal reflections that occur in a transparent dice. And it's not too expensive to run in real-time, as intersection functions are relatively cheap to compute, and I can limit the number of bounces to keep the performance in check. The problem with this is that dice have extra geometry that cannot be represented with simple intersection functions. I know... numbers are pretty important on a dice, right? For my simulator, I also want the option to customize the numbers, and that means I need to be able to represent them in the ray-marching shader.
 </p>
 
 <h5 class="section-title text-black mt-5 mb-3">Signed Distance Functions (SDFs)</h5>
 
 <p>
-  SDFs are a way to represent geometry using a function that returns the distance from any point in space to the nearest surface of the object. This would, in theory, allow me to represent any shape; you just need to define the SDF function for that shape. My first attempt at this approach was to generate a 3D texture for the SDF of the entire dice, including the numbers. This did not work well. 3D textures are essentially a grid of voxels, and to achieve a good level of detail I needed a very high resolution, especially because the dice have many diagonal edges that do not align well with the grid of the texture. This resulted in a very large texture that was expensive to sample and simply did not look good. Moreover, SDFs are very slow to compute when there are many details. The numbers on the dice add significant complexity, making this approach problematic. So I had to find another approach.
+  SDFs are a way to represent geometry using a mathematical function that returns the distance from any point in space to the nearest surface of the object. This would, in theory, allow me to represent any shape; you just need to define the SDF function for that shape. My first attempt at this approach was to generate a 3D texture for the SDF of the entire dice, including the numbers. This did not work well. 3D textures are essentially a grid of voxels, and to achieve a good level of detail I needed a very high resolution, especially because the dice have many diagonal edges that do not align well with the voxel grid. This resulted in a very large texture that was expensive to sample and simply did not look good. Moreover, SDFs are very slow to compute when there are many details. The numbers on the dice add significant complexity, making this approach problematic. So I had to find another approach.
 </p>
 
 <p>
-  The ideal solution would be to use the intersection function of a triangle for every triangle of the mesh. This way I can represent any geometry that I export from Blender or generate procedurally. Just loop through all the triangles and you're fine, right? Wrong... Performance: KILLED. Let's not forget that I'm bouncing the ray inside the dice, so the number of ray-triangle intersection tests grows exponentially with the number of bounces. A dice can easily have 1-3k triangles, depending on the complexity of the font used for the numbers. This approach is simply not feasible for real-time rendering.
+  The ideal solution would be to use the intersection function of a triangle for every triangle of the mesh. This way I can represent any geometry that I export from Blender or generate procedurally. Just loop through all the triangles and you're fine, right? <b>Wrong... Performance: KILLED.</b> Let's not forget that I'm bouncing the ray inside the dice, so the number of ray-triangle intersection tests grows exponentially with the number of bounces. A dice can easily have 1-3k triangles, depending on the complexity of the font used for the numbers. This approach is simply not feasible for real-time rendering. Or... it could be. We just need to make it fast!
 </p>
 
 <h5 class="section-title text-black mt-5 mb-3">Bounding Volume Hierarchy (BVH)</h5>
 
 <p>
-  A Bounding Volume Hierarchy is a data structure that allows for efficient ray tracing of complex scenes. It works by organizing the geometry of the scene into a tree structure, where each node contains a bounding volume that encloses a subset of the geometry. When a ray is cast, it first checks for intersection with the bounding volumes. Only if it intersects with a bounding volume does it check for intersection with the actual geometry triangles contained within that volume. This allows for much faster ray tracing, as it can quickly eliminate large portions of the mesh that do not intersect with the ray. I built a script that generates a BVH for a mesh on the CPU and feeds the data to the shader. This greatly improved performance, allowing real-time rendering of complex dice geometry.
+  A Bounding Volume Hierarchy is a data structure that allows for efficient ray tracing of complex meshes. It works by organizing the geometry of a mesh into a tree structure, where each node contains a bounding volume that encloses a subset of the geometry. When a ray is cast, it first checks for intersection with a node’s bounding volume. If there is no intersection, the entire node and its contents are skipped. If there is an intersection, the behavior depends on the node type: if the node is a leaf and contains triangles, the ray is tested against those triangles; otherwise, the ray traversal continues to the node’s child nodes.
+</p>
+<p>
+  This hierarchical approach significantly reduces the number of triangle intersection tests by quickly discarding large portions of the mesh. I built a script that generates a BVH for a mesh on the CPU and feeds the data to the shader. This greatly improved performance, allowing real-time rendering of complex dice geometry.
 </p>
 
 <div class="video-container">
@@ -94,7 +97,7 @@ excerpt: "An experimentation with Unity to create a realistic dice making simula
       </h2>
       <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion_1">
         <div class="accordion-body">
-          <p>Splits based on the average position of the triangle centers. It sums all triangle center coordinates along the longest axis and divides by the triangle count. This considers the actual distribution of objects and tries to balance based on where triangles are concentrated. Object Mean typically produces better balanced trees when objects are unevenly distributed within the bounding volume.</p>
+          <p>Splits based on the average position of the triangle centers. It sums all triangle center coordinates along the longest axis and divides by the triangle count. This considers the actual distribution of triangles and tries to balance based on where triangles are concentrated. Object Mean typically produces better balanced trees when triangles are unevenly distributed within the bounding volume.</p>
         </div>
       </div>
     </div>
@@ -116,7 +119,7 @@ excerpt: "An experimentation with Unity to create a realistic dice making simula
             <li>$N_R$ = Triangle Count in Right Child</li>
           </ul>
           <br>
-          Rather than using a single predetermined split position, SAH evaluates multiple candidate positions along each axis. For each candidate, it calculates how triangles would be distributed and what bounding boxes would result, then computes the expected traversal cost. The split with the lowest cost is selected.</p>
+          Rather than using a single predetermined split position, SAH evaluates multiple candidate positions along each axis. For each candidate, it calculates how triangles would be distributed and what bounding boxes would result, then computes the expected traversal cost. The split with the lowest cost is selected. It is slower to compute but typically results in better performance.</p>
         </div>
       </div>
     </div>
@@ -140,7 +143,7 @@ excerpt: "An experimentation with Unity to create a realistic dice making simula
 </div>
 
 <p>
-  While the BVH approach is an improvement on usability, there may still be room for improvement. This approach would work the best when the mesh's triangles are evenly distributed and/or their area is relatively similar. However, if there are large triangles that take up a lot of space and small triangles that are very dense in a small area, the BVH may not perform well, as it may end up with large bounding volumes that contain many triangles, leading to more intersection tests.
+  While the BVH approach is better in usability, there may still be room for improvement. This approach would work the best when the mesh's triangles are evenly distributed and/or their area is relatively similar. However, if there are large triangles that take up a lot of space and small triangles that are very dense in a small area, the BVH may not perform well, as it may end up with large bounding volumes that contain many triangles, leading to more intersection tests.
 </p>
 
 <h3 class="section-title text-black mt-5 mb-3">Glitter</h3>
@@ -206,7 +209,7 @@ excerpt: "An experimentation with Unity to create a realistic dice making simula
 <div class="row mb-4 align-items-start">
   <div class="col-lg-8">
     <p>
-      An effect I really wanted to achieve was that of unpolished dice. This is a common style for resin dice, where the surface of the dice is not perfectly smooth, but has a frosted or matte finish. My first intuition was to imitate what happens in the real world. A frosted surface has a lot of tiny imperfections that scatter light in different directions. So I modified the rays to include random offsets instead of following the perfect path of refraction and reflection, simulating the scattering effect that would occur on a frosted surface.
+      An effect I really wanted to achieve was that of unpolished dice. This is a common style for resin dice, where the surface of the dice is not perfectly smooth, but has a frosted or matte finish. My first intuition was to imitate what happens in the real world. A frosted surface has a lot of tiny imperfections that scatter light in different directions. So I modified the rays to include random offsets instead of following the perfect path of refraction and reflection.
     </p>
     <p>
       This first attempt created a very noisy and flickering image, as the random offset caused a lot of variation in the ray paths, leading to samples that were very different from each other. I knew this was the right direction, as anything that is part of the ray-marching process would automatically work with it; I just needed a way to stabilize the image.
@@ -234,7 +237,7 @@ excerpt: "An experimentation with Unity to create a realistic dice making simula
 <h5 class="section-title text-black mt-5 mb-3">Temporal Accumulation</h5>
 
 <p>
-  The second approach was to use temporal accumulation. Instead of trying to reduce the noise in a single frame, I accumulated the results across multiple frames. This way, the noise would average out and the image would become progressively smoother. This approach worked well for static scenes; it required a lot of frames to converge. The result was a very stable image with the best frosted look; however, it completely broke down when there was any movement in the scene, as the accumulated samples would no longer be valid, resulting in ghosting and trails.
+  The second approach was to use temporal accumulation. Instead of trying to reduce the noise in a single frame, I accumulated the results across multiple frames. This way, the noise would average out and the image would become progressively smoother. This approach worked well for static scenes as it required a lot of frames to converge. The result was a very stable image with the best frosted appearance! However, it completely broke down when there was any movement in the scene, as the accumulated samples would no longer be valid, resulting in ghosting and trails.
 </p>
 <p>
   Looking online, I found <a href="https://gpuopen.com/fidelityfx-denoiser/" target="_blank" rel="noopener">AMD's FidelityFX Denoiser</a>, which uses a combination of denoising techniques including reprojection to achieve good results even in dynamic scenes. I tried to port it to Unity using a custom render pass, but I was unable to make it work and did not want to spend too much time on it.
@@ -243,10 +246,10 @@ excerpt: "An experimentation with Unity to create a realistic dice making simula
 <h5 class="section-title text-black mt-5 mb-3">Blur Pass + Blue Noise</h5>
 
 <p>
-  The final approach I tried was to apply a blur filter using a blue noise pattern to reduce the noise. Blue noise is a type of noise with minimal low-frequency components, making it ideal for dithering as it distributes the noise more evenly across the image. This approach worked better than I thought, reducing the noise while maintaining good performance; however, it's still not perfect and shows some noise, especially in areas with high contrast such as the glitter particles.
+  The final approach I tried was to reduce the noise by applying a blur filter using a blue noise pattern. Blue noise is a type of noise with minimal low-frequency components, making it ideal for dithering as it distributes the noise more evenly across the image. This approach worked better than I thought, reducing the noise while maintaining good performance. It's still not perfect and some flickering remains, especially in areas with high contrast such as the glitter particles.
 </p>
 <p>
-  Only the dice volume is blurred. This is achieved by rendering the ray-marched volume to a separate pass, downsampling it to half resolution, and then applying a blur filter to it. The dice surface is then composited on top of the image in a following pass; this way, it remains sharp.
+  Only the dice volume is blurred. This is achieved by rendering the ray-marched volume to a separate pass, downsampling it to half resolution, and then applying a blur filter to it. To avoid blurring the dice surface, it is composited on top of the blurred volume in a following pass.
 </p>
 
 <h3 class="section-title text-black mt-5 mb-3">Clouds</h3>
@@ -254,7 +257,7 @@ excerpt: "An experimentation with Unity to create a realistic dice making simula
 <div class="row mb-4 align-items-start">
   <div class="col-lg-8">
     <p>
-      Another effect I wanted to achieve was the cloudy effect that some resin dice have. This is usually achieved by dropping a few drops of white or colored alcohol ink into the resin before it cures, creating a swirling pattern that gives the dice a cloudy appearance. To achieve this effect, I researched volumetric rendering techniques and cloud rendering in games.
+      Another effect I wanted to achieve was the cloudy effect that some resin dice have. This is usually achieved by dropping a few drops of white alcohol ink into the resin before it cures, creating a swirling pattern that gives the dice a cloudy appearance. To achieve this effect, I researched volumetric rendering techniques and cloud rendering in games.
     </p>
 
     <p>
@@ -280,7 +283,7 @@ excerpt: "An experimentation with Unity to create a realistic dice making simula
       To increase the realism, I also simulate the scattering of the main light within the clouds. This is achieved by shooting an additional ray from the sample point towards the main light source and using the distance to the surface of the dice to approximate the scattering and accumulation of light within the clouds, making the areas closer to the surface appear brighter.
     </p>
     <p>
-      The density of the cloud does not affect the light accumulation. I tried it, but it turned out too expensive (see Performance section), as it requires sampling the 3D texture multiple times along the light ray, exponentially increasing the number of samples and rendering time. While increasing fidelity is always nice, I had to make some sacrifices to keep the performance in check, and this was one of them.
+      The density of the cloud itself does not affect the light accumulation. I tried it, but it turned out too expensive (see Performance section), as it requires sampling the 3D texture multiple times along the light ray, exponentially increasing the number of samples and rendering time. While increasing fidelity is always nice, I had to make some sacrifices to keep the performance in check, and this was one of them.
     </p>
   </div>
   <div class="col-lg-4">
@@ -298,7 +301,7 @@ excerpt: "An experimentation with Unity to create a realistic dice making simula
       When making my dice, I usually also add mica powder to create a shimmering effect. Mica powder is a fine, reflective powder that can be mixed into the resin to give the dice a sparkling appearance. I decided to implement this effect as well.
     </p>
     <p>
-      The mica effect fills the dice interior volume with a procedural field of tiny virtual mirror platelets. Each platelet gets a random-but-stable orientation derived from its 3D grid cell, so the shimmer holds still in space and only changes as the viewing angle shifts. As the ray marches through the resin, each step reflects the view direction off the local flake and samples the environment cubemap (the same path used by glitter) then accumulates the result weighted by transparency so deeper flakes appear dimmer.
+      The mica effect fills the dice interior volume with a procedural field of tiny virtual mirrors. Each mirror gets a random-but-stable orientation derived from its 3D grid cell, so the shimmer holds still in space and only changes as the viewing angle shifts. As the ray marches through the resin, each step reflects the view direction off the local flake and samples the environment cubemap (the same path used by glitter) then accumulates the result weighted by transparency so deeper flakes appear dimmer.
     </p>
     <p>
       Each flake's color is driven by how directly it faces the camera: head-on flakes show the "face" color, while edge-on flakes shift toward the "flop" color, mimicking the angle-dependent color flip of real pearlescent powders. An optional hue spread parameter then rotates each flake's color independently around the luminance-neutral axis, so neighbouring flakes can display subtly different hues, recreating the multi-colored rainbow glint of natural muscovite mica or synthetic pearl pigment.
