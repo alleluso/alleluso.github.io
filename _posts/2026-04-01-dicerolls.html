@@ -78,7 +78,7 @@ excerpt: "Showcase of a pre-rendered D20 dice roll system inspired by Baldur’s
 <h4 class="section-title text-black mt-5 mb-3">Landing Motion</h4>
 
 <p>
-  To make the landing feel more dynamic, I wanted the die to have a subtle wiggle whenever the correct face appeared. One way to achieve this would have been to create a separate sprite sheet for the landing animation of each face. But producing 20 unique sprite sheets would have been extremely time-consuming, and loading all of those textures at once would also consume a significant amount of memory.
+  To make the landing feel more dynamic, I wanted the die to have a subtle wiggle whenever the correct face appeared. One way to achieve this would have been to create a separate sprite sheet for the landing animation of each face. But producing 20 unique sprite sheets would have been extremely time-consuming and loading all of those textures at once would also consume a significant amount of memory.
 </p>
 
 <p>
@@ -109,7 +109,7 @@ excerpt: "Showcase of a pre-rendered D20 dice roll system inspired by Baldur’s
     </p>
 
     <p>
-      The blue channel is used as an alpha mask to reduce visual artifacts that can appear at certain viewing angles. Since the UV distortion can occasionally cause pixels to sample neighboring faces from the sprite sheet, the mask helps clean up those areas and maintain a consistent result.
+      The blue channel is used as an alpha mask to reduce visual artifacts that can appear at certain viewing angles. Since the UV distortion can occasionally cause the sample of the wrong pixels at the edges of the die, the mask helps clean up those areas and maintain a consistent result.
     </p>
   </div>
   <div class="col-lg-8">
@@ -126,7 +126,7 @@ excerpt: "Showcase of a pre-rendered D20 dice roll system inspired by Baldur’s
 <div class="row align-items-start">
   <div class="col-lg-8">
     <p>
-      In order to quickly create the sprite sheets, I wrote a custom Blender script that automates the process of rendering the different frames and combining them into sprite sheets. The script uses the active camera as the viewpoint and allows me to specify the number of frames, columns, and rows. Other parameters such as texture size and format are taken directly from the Output settings. This has been a massive time saver as it streamlined the workflow.
+      In order to quickly create the sprite sheets, I wrote a custom Blender script that automates the process of rendering the different frames and combining them into one single texture. The script uses the active camera as the viewpoint and allows me to specify the number of frames, columns and rows. Other parameters such as texture size and format are taken directly from the Output settings. This has been a massive time saver as it streamlined the workflow.
     </p>
   </div>
   <div class="col-lg-4">
@@ -139,7 +139,7 @@ excerpt: "Showcase of a pre-rendered D20 dice roll system inspired by Baldur’s
 <h3 class="section-title text-black mt-5 mb-3">In Game</h3>
 
 <p>
-  Both the Unity and Unreal Engine implementations use the same rendering approach for the dice rolls. A custom shader is responsible for selecting and displaying the correct frame from the sprite sheets. The full animation consists of 81 frames: the first frame shows the die at rest, the next 64 frames contain the rolling animation, and the final 16 frames handle the landing motion. The shader also blends smoothly between the rolling and landing states to avoid abrupt transitions.
+  Both the Unity and Unreal Engine implementations use the same rendering approach for the dice rolls. A custom shader is responsible for selecting and displaying the correct frame from the sprite sheets. The full animation consists of 81 frames: the first frame shows the die at rest the next 64 frames contain the rolling animation, and the final 16 frames handle the landing motion. The shader also blends smoothly between the rolling and landing states to avoid abrupt transitions.
 </p>
 
 <p>
@@ -169,7 +169,7 @@ excerpt: "Showcase of a pre-rendered D20 dice roll system inspired by Baldur’s
   </li>
 
   <li>
-    While the UV distortion approach works well visually, it does not respond to scene lighting, reflections, or refractions. This can make the landing feel slightly disconnected from the environment. I experimented with faking reflections using the blue channel in the landing sprite sheet, but the results were not convincing enough to justify the added complexity. This is a fundamental limitation of this technique. In contrast, <entity>BG3</entity> uses separate landing animations per face, which makes the results feel more dynamic and less repetitive, but comes at the cost of producing a large number of unique sprite sheets.
+    While the UV distortion approach works well visually, it does not respond to scene lighting, reflections, or refractions. This can make the landing feel slightly disconnected from the environment. I experimented with fake reflections using the blue channel in the landing sprite sheet, but the results were not convincing enough to justify the added complexity. This is a fundamental limitation of this technique. In contrast, <entity>BG3</entity> uses separate landing animations per face, which makes the results feel more dynamic and less repetitive, but comes at the cost of producing a large number of unique sprite sheets.
   </li>
 
   <li>
