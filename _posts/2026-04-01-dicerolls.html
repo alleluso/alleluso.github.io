@@ -153,6 +153,31 @@ excerpt: "Showcase of a pre-rendered D20 dice roll system inspired by Baldur’s
   </video>
 </div>
 
+<h3 class="section-title text-black mt-5 mb-3">Final Thoughts</h3>
+
+<p>
+  While I’m satisfied with how the project turned out and wouldn’t change the overall approach, there are still a few areas that could be worth improving or exploring further.
+</p>
+
+<ul>
+  <li>
+    The transition from rolling to landing is quite noticeable, which makes the roll feel slightly “rigged” (even though it is deterministic, the perception matters more here). In the current setup, the roll appears to end on the value 11 before snapping into the correct result. This could be improved by pacing the last part of the roll a bit better, for example by increasing motion blur further to reduce readability of individual faces, maintaining higher rotational speed toward the end of the animation, or ending in a rotation that lies in between 3 faces.
+  </li>
+
+  <li>
+    The landing animations could also be refined to feel more natural, mainly through improved keyframing and more varied motion.
+  </li>
+
+  <li>
+    While the UV distortion approach works well visually, it does not respond to scene lighting, reflections, or refractions. This can make the landing feel slightly disconnected from the environment. I experimented with faking reflections using the blue channel in the landing sprite sheet, but the results were not convincing enough to justify the added complexity. This is a fundamental limitation of this technique. In contrast, <entity>BG3</entity> uses separate landing animations per face, which makes the results feel more dynamic and less repetitive, but comes at the cost of producing a large number of unique sprite sheets.
+  </li>
+
+  <li>
+    There is currently no support for indicating critical successes or failures (rolling a 1 or a 20), such as visually highlighting the number on the die faces. Implementing this would likely require either additional sprite sheets or repurposing an unused texture channel as a mask.
+  </li>
+</ul>
+
+
 {% include software-list.html software=page.software %}
 
 {% include store-list.html fab="https://fab.com/s/b1ca726233ce"%}
