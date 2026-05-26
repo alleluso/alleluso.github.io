@@ -1,0 +1,158 @@
+---
+title: "Dice Rolls"
+date: 2026-04-01
+image: "dicerolls/entry.jpg"
+type: "techart"
+project: "none"
+software:
+- unity
+- unreal
+- blender
+excerpt: "Showcase of a pre-rendered D20 dice roll system inspired by Baldur’s Gate 3. The project uses a custom Blender script to generate the required sprite sheets, while custom shaders for Unreal Engine and Unity handle playback of the roll animation in real time."
+---
+
+<p>
+  My fascination with dice and role-playing games continues to grow. I recently had the pleasure of finishing my first Baldur's Gate 3 playthrough, which inspired me to try and recreate the dice roll animations that are featured in the game.
+</p>
+
+<div class="youtube-embed-wrapper">
+  <div class="youtube-embed-container">
+    <iframe src="https://www.youtube.com/embed/weKkjAlSKIs?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  </div>
+</div>
+
+<p>
+  <entity>BG3</entity> uses pre-rendered animations to achieve its distinctive level of visual fidelity. I wanted to experiment with a similar approach, mostly because it was something I had never tried before. To keep the scope manageable, I gave myself one week to see how far I could push the idea without turning it into a long-term project.
+</p>
+
+<p>
+  The process was divided into two main stages: generating the sprite sheets in Blender, and then building a custom shader in-engine to play back the animations.
+</p>
+
+<h3 class="section-title text-black mt-5 mb-3">In Blender</h3>
+
+<p>
+  The first thing that I did was to observe and take note of the different parts that make up the animation:
+</p>
+
+<ul>
+  <li>Die at rest showing the initial face, usually the one rolled last or the one that was set as the default.</li>
+  <li>Die in motion, rolling and tumbling through the air.</li>
+  <li>Die landing motion, showing the final face after the roll.</li>
+</ul>
+
+<h4 class="section-title text-black mt-5 mb-3">Die Faces</h4>
+
+<p>
+  I started by modeling and uv mapping a D20 die in Blender. It will serve as the base mesh for all the animations. The base mesh has multiple uv channels, one of which is set up to be used for the numbers font, so I can quickly change the font style and size in photoshop without changing other textures.
+</p>
+
+<div class="image-container">
+  <a href="{{ '/assets/images/dicerolls/dice.png' | relative_url }}" data-fancybox="">
+    <img src="{{ '/assets/images/dicerolls/dice.png' | relative_url }}" alt="Die">
+  </a>
+</div>
+
+<p>
+  To create the sprites for each face, I set up an empty and parented an instanced copy of the base mesh to it. Then, for each face (1-20), I keyframed the empty to rotate the die to show the desired face. Once I had the keyframes set up, I rendered out the frames for each face. The sprites are then combined into a single sprite sheet. The resulting texture will be used by the shader to display the correct face during the rest position and landing motion.
+</p>
+
+<div class="image-container">
+  <a href="{{ '/assets/images/dicerolls/faces.gif' | relative_url }}" data-fancybox="">
+    <img src="{{ '/assets/images/dicerolls/faces.gif' | relative_url }}" alt="Dice Faces">
+  </a>
+</div>
+
+<h4 class="section-title text-black mt-5 mb-3">Die Roll</h4>
+
+<p>
+  The creation of the roll animation follows a similar process. I used another empty and parented another instanced copy of the base mesh to it. This time, I keyframed the empty over 64 frames to create a dynamic rolling motion, that starts fast (to simulate a die being thrown) and then slows down as it approaches the landing. The resulting frames are rendered out and combined into a sprite sheet, which will be used by the shader to display the rolling animation. During this step, it's important to enable motion blur, as it changes the look of the animation drastically for the better.
+</p>
+
+<div class="image-container">
+  <a href="{{ '/assets/images/dicerolls/roll.gif' | relative_url }}" data-fancybox="">
+    <img src="{{ '/assets/images/dicerolls/roll.gif' | relative_url }}" alt="Die Roll">
+  </a>
+</div>
+
+<h4 class="section-title text-black mt-5 mb-3">Landing Motion</h4>
+
+<p>
+  To make the landing feel more dynamic, I wanted the die to have a subtle wiggle whenever the correct face appeared. One way to achieve this would have been to create a separate sprite sheet for the landing animation of each face. But producing 20 unique sprite sheets would have been extremely time-consuming, and loading all of those textures at once would also consume a significant amount of memory.
+</p>
+
+<p>
+  Instead, I looked for a way to reuse the existing face sprite sheet and simulate the motion directly in the shader. Since the landing animation only introduces small positional and rotational changes, it was possible to fake the effect by distorting the UVs. To do this, I generated a secondary texture sheet that offsets the UVs of the original face sprite sheet in a way that creates the illusion of movement.
+</p>
+
+<p>
+  In Blender, I built a shader that outputs the positional difference between a reference frame and the die’s current state. I then rendered this data into a sprite sheet, effectively creating a distortion map that could be sampled in-game to modify the UVs of the face texture. Using this approach, I was able to fit four different landing animations, each with 16 frames, into a single 2048x2048 texture.
+</p>
+
+<div class="image-container">
+  <a href="{{ '/assets/images/dicerolls/landing.gif' | relative_url }}" data-fancybox="">
+    <img src="{{ '/assets/images/dicerolls/landing.gif' | relative_url }}" alt="Dice Landing Motion">
+  </a>
+  <div class="media-description">
+    <p>Result is exaggerated for visualization purposes, with white lines for debugging. The frame of reference for this is the first UV channel of the die's mesh, mapped to the die at its rest position.</p>
+  </div>
+</div>
+
+<div class="row align-items-start">
+  <div class="col-lg-4">
+    <p>
+      The resulting sprite sheet is split into four quadrants, each containing a different landing animation. Every quadrant holds 16 frames that are played sequentially in the shader to produce the final motion.
+    </p>
+
+    <p>
+      The UV offset data is stored in the red and green channels, remapped into a 0-1 range where 0.5 represents no offset. In the game shader, these values are converted back into a -1 to 1 range before being applied to the UVs.
+    </p>
+
+    <p>
+      The blue channel is used as an alpha mask to reduce visual artifacts that can appear at certain viewing angles. Since the UV distortion can occasionally cause pixels to sample neighboring faces from the sprite sheet, the mask helps clean up those areas and maintain a consistent result.
+    </p>
+  </div>
+  <div class="col-lg-8">
+    <div class="image-container mt-0">
+      <a href="{{ '/assets/images/dicerolls/dice_roll_landings.jpg' | relative_url }}" data-fancybox="">
+        <img src="{{ '/assets/images/dicerolls/dice_roll_landings.jpg' | relative_url }}" alt="Dice Roll Landings">
+      </a>
+    </div>
+  </div>
+</div>
+
+<h4 class="section-title text-black mt-5 mb-3">Sprite Sheet Renderer</h4>
+
+<div class="row align-items-start">
+  <div class="col-lg-8">
+    <p>
+      In order to quickly create the sprite sheets, I wrote a custom Blender script that automates the process of rendering the different frames and combining them into sprite sheets. The script uses the active camera as the viewpoint and allows me to specify the number of frames, columns, and rows. Other parameters such as texture size and format are taken directly from the Output settings. This has been a massive time saver as it streamlined the workflow.
+    </p>
+  </div>
+  <div class="col-lg-4">
+    <div class="image-container mt-0">
+      <img src="{{ '/assets/images/dicerolls/plugin.png' | relative_url }}" alt="Sprite Sheet Renderer Plugin">
+    </div>
+  </div>
+</div>
+
+<h3 class="section-title text-black mt-5 mb-3">In Game</h3>
+
+<p>
+  Both the Unity and Unreal Engine implementations use the same rendering approach for the dice rolls. A custom shader is responsible for selecting and displaying the correct frame from the sprite sheets. The full animation consists of 81 frames: the first frame shows the die at rest, the next 64 frames contain the rolling animation, and the final 16 frames handle the landing motion. The shader also blends smoothly between the rolling and landing states to avoid abrupt transitions.
+</p>
+
+<p>
+  The rolling section of the animation can be looped indefinitely by repeating the beginning of the roll sprite sheet, making it possible to create rolls of arbitrary length. Because the motion blur is fairly strong, the loop point is effectively hidden. I used this technique in the demo video to extend the duration of the roll animation.
+</p>
+
+<div class="video-container">
+  <video autoplay loop muted>
+    <source src="{{ '/assets/images/dicerolls/unity.mp4' | relative_url }}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</div>
+
+{% include software-list.html software=page.software %}
+
+{% include store-list.html fab="https://fab.com/s/b1ca726233ce"%}
