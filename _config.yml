@@ -23,7 +23,7 @@ description: >- # this means to ignore newlines until "baseurl:"
   Senior Unity Game Developer with 7+ years of experience building and maintaining liveservice mobile games. Strong background in client-side architecture, Live-Ops, and full-stack integration, with a focus on performant, visually polished Unity experiences.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://alleluso.github.io" # the base hostname & protocol for your site
-email: alleluso95@gmail.com
+email: alessandro.lusetti.work@gmail.com
 github_username: alleluso
 github_url: https://github.com/alleluso
 linkedin_url: https://www.linkedin.com/in/alessandrolusetti
@@ -31,7 +31,7 @@ linkedin_url: https://www.linkedin.com/in/alessandrolusetti
 # SEO Settings
 author:
   name: Alessandro Lusetti
-  email: alleluso95@gmail.com
+  email: alessandro.lusetti.work@gmail.com
   
 social:
   name: Alessandro Lusetti
