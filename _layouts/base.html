@@ -1,9 +1,3 @@
-<!-- /*
-* Template Name: Minimal
-* Template Author: Untree.co
-* Author URI: https://untree.co/
-* License: https://creativecommons.org/licenses/by/3.0/
-*/ -->
 <!doctype html>
 <html lang="en">
 
@@ -18,8 +12,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=PT+Mono&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=PT+Mono&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="{{ '/assets/css/bootstrap.min.css' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/owl.carousel.min.css' | relative_url }}">
@@ -78,8 +71,7 @@
         <a href="{{ '/' | relative_url }}" class="logo m-0">Portfolio<span class="text-primary">.</span></a>
 
         <ul class="js-clone-nav d-none d-lg-inline-none site-menu float-right site-nav-wrap">
-          <li><a href="{{ '/' | relative_url }}"
-              class="nav-link{% if page.url == '/' or page.url == '/index.html' %} active{% endif %}">Home</a></li>
+          <li><a href="{{ '/' | relative_url }}" class="nav-link{% if page.url == '/' or page.url == '/index.html' %} active{% endif %}">Home</a></li>
 
           <li style="margin-bottom: 20px;"></li>
 
@@ -93,12 +85,10 @@
 
           <li style="margin-bottom: 20px;"></li>
 
-          <li><a href="{{ '/about.html' | relative_url }}"
-              class="nav-link{% if page.url contains 'about' %} active{% endif %}">About</a></li>
+          <li><a href="{{ '/about.html' | relative_url }}" class="nav-link{% if page.url contains 'about' %} active{% endif %}">About</a></li>
         </ul>
 
-        <a href="#" class="burger float-right site-menu-toggle js-menu-toggle d-inline-block d-lg-inline-block"
-          data-toggle="collapse" data-target="#main-navbar">
+        <a href="#" class="burger float-right site-menu-toggle js-menu-toggle d-inline-block d-lg-inline-block" data-toggle="collapse" data-target="#main-navbar">
           <span></span>
         </a>
 
@@ -176,8 +166,7 @@
   <script src="{{ '/assets/js/custom.js' | relative_url }}"></script>
   <script src="{{ '/assets/js/dynamic-year.js' | relative_url }}"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
-    onload="renderMathInElement(document.body, { delimiters: [
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous" onload="renderMathInElement(document.body, { delimiters: [
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ]});"></script>

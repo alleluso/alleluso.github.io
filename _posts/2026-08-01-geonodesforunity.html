@@ -1,0 +1,177 @@
+---
+title: "Geometry Nodes in Unity"
+date: 2026-08-01
+image: "geonodesforunity/entry.jpg"
+type: "techart"
+project: "none"
+software:
+- unity
+- blender
+excerpt: "A Unity tool for working with Blender's Geometry Nodes directly in the Unity scene. Adjust parameters, generate procedural models from meshes and splines, and use the saved results in game."
+---
+
+<p>
+  Blender's Geometry Nodes are a great way to create models that can be adjusted and reused. The problem is that, once I bring a model into Unity, changing it usually means going back to Blender and exporting it again. I wanted to make that process easier, so I built a tool that lets me use my Geometry Nodes setups directly from the Unity Inspector.
+</p>
+
+<p>
+  The idea is simple: I build the node tree in Blender, then choose its settings and generate the result in Unity. Blender runs headless in the background to do the modeling work. Once the result is saved, a game can use it without needing Blender installed.
+</p>
+
+<!-- MEDIA PLACEHOLDER: replace with video overview of the tool.
+<div class="video-container">
+  <video autoplay loop muted controls playsinline>
+    <source src="{{ '/assets/images/geonodesforunity/overview.mp4' | relative_url }}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</div>
+-->
+
+<h3 class="section-title text-black mt-5 mb-3">From Blender to the Inspector</h3>
+
+<p>
+  I start with a Blender file containing a Geometry Nodes setup and import it into Unity. By selecting the custom Geometry Nodes importer, the file becomes an asset that lists the available generators and their supported parameters. Saving changes in Blender updates that information in Unity, so I can keep working on the graph without setting everything up again.
+</p>
+
+<p>
+  After assigning the asset to a <code>GeoNodeMesh</code> component, I can choose a generator and adjust its parameters in the Inspector. Numbers, toggles, and vectors use the defaults and ranges defined in Blender. Numeric parameters also have a randomization option, which is useful for quickly trying different variations of the same model.
+</p>
+
+<p>
+  Pressing <strong>Generate</strong> creates the model as child objects in the scene. I also added an <strong>Auto Regenerate</strong> option so the result updates after I change a setting. It waits briefly for edits to settle, which makes adjusting several parameters less cumbersome.
+</p>
+
+<div id="render-gallery" class="carousel slide" data-ride="carousel" data-interval="5000" data-pause="false">
+  <div class="carousel-inner" style="overflow: hidden;">
+    <div class="carousel-item active">
+      <a href="{{ '/assets/images/geonodesforunity/param_2.jpg' | relative_url }}" data-fancybox="gallery1">
+        <img src="{{ '/assets/images/geonodesforunity/param_2.jpg' | relative_url }}" class="d-block w-100" alt="Blender Parameters" style="object-fit: cover; cursor: pointer;">
+      </a>
+    </div>
+    <div class="carousel-item">
+      <a href="{{ '/assets/images/geonodesforunity/param_1.jpg' | relative_url }}" data-fancybox="gallery1">
+        <img src="{{ '/assets/images/geonodesforunity/param_1.jpg' | relative_url }}" class="d-block w-100" alt="Unity Parameters" style="object-fit: cover; cursor: pointer;">
+      </a>
+    </div>
+    <div class="carousel-item">
+      <a href="{{ '/assets/images/geonodesforunity/param_4.jpg' | relative_url }}" data-fancybox="gallery1">
+        <img src="{{ '/assets/images/geonodesforunity/param_4.jpg' | relative_url }}" class="d-block w-100" alt="Blender Parameters" style="object-fit: cover; cursor: pointer;">
+      </a>
+    </div>
+    <div class="carousel-item">
+      <a href="{{ '/assets/images/geonodesforunity/param_3.jpg' | relative_url }}" data-fancybox="gallery1">
+        <img src="{{ '/assets/images/geonodesforunity/param_3.jpg' | relative_url }}" class="d-block w-100" alt="Unity Parameters" style="object-fit: cover; cursor: pointer;">
+      </a>
+    </div>
+  </div>
+  <div class="media-description">
+    <p>The same supported parameters shown in Blender are available in the Unity Inspector.</p>
+  </div>
+</div>
+
+<h3 class="section-title text-black mt-5 mb-3">Using Unity Scene Geometry</h3>
+
+<p>
+  Changing a few numbers is useful, but I also wanted the models to respond to things already in the Unity scene. A fence, for example, should follow a path that I can edit freely directly in the game scene.
+</p>
+
+<p>
+  For this, I added driver components that pass Unity objects into the Blender graph. They support meshes and terrains, with optional integrations for ProBuilder and Unity Splines. The graph receives these through an <strong>Object</strong> input, which can be read using Blender's Object Info node. Other drivers let me use an object's position or transform to control parameters.
+</p>
+
+<p>
+  Spline inputs keep their handle parameters such as roll and tangents, while terrain inputs include the surface and its holes. This means I can shape a path or adjust the ground in Unity and use it as the starting point for a procedural model.
+</p>
+
+<p>
+  The inputs keep their placement relative to the generated model, so moving or rotating them in Unity produces the expected result. Blender works with temporary copies during generation, leaving the original file unchanged.
+</p>
+
+<p>
+  Possible uses include building a road along a spline, placing props over a terrain, or turning a simple ProBuilder blockout into a more detailed structure. The modeling logic stays in Blender, while the layout can be adjusted directly in Unity.
+</p>
+
+<div class="video-container">
+  <video autoplay loop muted controls playsinline>
+    <source src="{{ '/assets/images/geonodesforunity/splines.webm' | relative_url }}" type="video/webm">
+    Your browser does not support the video tag.
+  </video>
+</div>
+
+<h3 class="section-title text-black mt-5 mb-3">Preserving the Generated Result</h3>
+
+<p>
+  I wanted the generated models to keep the details that matter visually, including their shading, UVs, vertex colors, and material slots. Materials are assigned in Unity, so the same generator can be used with different looks without changing the Blender setup.
+</p>
+
+<p>
+  I also added a way to split a generated model into separate pieces. An attribute named <code>chunk</code> in the node tree decides which faces belong together. Unity then creates an object for each piece, with its own pivot. This is useful when parts of a model need to move independently or have their own physics components or simply for optimization purposes (culling, vertex count, etc).
+</p>
+
+<p>
+  A second attribute, <code>collision</code>, lets me define collision geometry alongside the visible model. The graph can produce a detailed railing, for example, with a much simpler shape for physics. Unity automatically adds the required MeshColliders, keeping the visible and collision meshes aligned.
+</p>
+
+<div class="image-container">
+  <a href="{{ '/assets/images/geonodesforunity/chunk.jpg' | relative_url }}" data-fancybox="">
+    <img src="{{ '/assets/images/geonodesforunity/chunk.jpg' | relative_url }}" alt="Geometry Nodes for Unity demonstration">
+  </a>
+  <div class="media-description">
+    <p>The railing is split into separate pieces, each with a simplified collision mesh. Both are defined in the Blender node tree. The repeated posts use instanced rendering.</p>
+  </div>
+</div>
+
+<p>
+  Generated results are saved with the scene or prefab, so reopening the project or running the game does not require another Blender evaluation. I also added a <strong>Bake</strong> button to save a generated mesh as a regular Unity asset when I want to use it separately.
+</p>
+
+<h3 class="section-title text-black mt-5 mb-3">Instances and Rendering</h3>
+
+<p>
+  Geometry Nodes often use instances to repeat the same object many times. I wanted to preserve that advantage in Unity, rather than turn every copy into a separate object. The tool uses GPU instancing to draw repeated meshes, which is useful for anything; from lamp posts to foliage or modular building details.
+</p>
+
+<p>
+  Nearby instances are grouped together for rendering. An optional LOD component can switch to simpler meshes at a distance and skip instances that are too far away or outside the camera view. I added Scene view visualizations to make it easier to see how those groups are being rendered.
+</p>
+
+<p>
+  Each type of repeated object can have its own distance settings and lower-detail meshes. Those meshes can also use simpler materials, giving me control over both the shape and shading of distant objects.
+</p>
+
+<p>
+  Another useful option is replacing the generated instance mesh with a custom mesh or prefab. A custom mesh keeps the instanced rendering, while a prefab creates individual objects with their own scripts, colliders, and renderers. That lets the Blender graph handle placement while Unity supplies the actual game objects. Large numbers of prefabs still come with the usual cost of having many objects in the scene.
+</p>
+
+<p>
+  I also included a Shader Graph helper for giving instances consistent visual variation, such as different colors. That variation stays attached to each instance as it moves between rendering groups or detail levels, although regenerating the layout can change it.
+</p>
+
+<div class="video-container">
+  <video autoplay loop muted controls playsinline>
+    <source src="{{ '/assets/images/geonodesforunity/instances.webm' | relative_url }}" type="video/webm">
+    Your browser does not support the video tag.
+  </video>
+</div>
+
+<h3 class="section-title text-black mt-5 mb-3">Behind the Bridge</h3>
+
+<p>
+  Blender stays open in the background between operations, avoiding the delay of launching it for every edit. I also added a timing breakdown to help identify which part of generation takes the longest when working with more complex models.
+</p>
+
+<p>
+  If generation fails, the previous result stays in the scene. If I change a setting while Blender is still working, an outdated result cannot overwrite the newer edits. Generated changes also support Unity's Undo, making experimentation a little less risky.
+</p>
+
+<h3 class="section-title text-black mt-5 mb-3">Final Thoughts</h3>
+
+<p>
+  What I like most about this tool is being able to build the procedural logic in Blender and then work with the result in the context of a Unity scene. Paths, proportions, and placement are much easier to judge when I can see the model alongside everything else.
+</p>
+
+<p>
+  The current version targets Unity 6.3 and Blender 5.2, with HDRP as the supported rendering setup. It generates models in the Editor, so it is intended for authoring rather than changing Geometry Nodes graphs during gameplay. Blender materials also need to be replaced with Unity materials. There are still limits to what it can transfer, but it already gives me a useful way to reuse procedural models across different scenes.
+</p>
+
+{% include software-list.html software=page.software %}
