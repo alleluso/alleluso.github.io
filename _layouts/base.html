@@ -75,7 +75,10 @@
 
           <li style="margin-bottom: 20px;"></li>
 
-          {% assign sorted_posts = site.posts | sort: 'date' | reverse %}
+          {% assign burraco_posts = site.posts | where: 'portfolio_category', 'burraco' %}
+          {% assign tools_posts = site.posts | where: 'portfolio_category', 'tech-art' %}
+          {% assign past_posts = site.posts | where: 'portfolio_category', 'past-projects' %}
+          {% assign sorted_posts = burraco_posts | concat: tools_posts | concat: past_posts %}
           {% for post in sorted_posts %}
           {% unless post.path contains 'unused_' %}
           <li><a href="{{ post.url | relative_url }}" class="nav-link{% if page.url == post.url %} active{% endif %}">{{

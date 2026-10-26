@@ -17,20 +17,20 @@ title: Alessandro's Portfolio
           in client-side architecture, Live-Ops, and
           <strong>full-stack</strong> integration, with a focus on
           performant, <strong>visually polished
-          experiences.</strong>
+            experiences.</strong>
         </h2>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Projects Section -->
+<!-- Burraco: la Sfida -->
 <div class="untree_co-section" id="projects-section">
   <div class="container">
     <div class="row mb-3">
       <div class="col-lg-7 text-center mx-auto">
         <h2 class="section-heading gsap-reveal-hero mb-0">
-          <strong>Projects</strong>
+          <strong>Burraco: la Sfida</strong>
         </h2>
         <div class="wave gsap-reveal-hero">
           <svg>
@@ -39,7 +39,62 @@ title: Alessandro's Portfolio
         </div>
       </div>
     </div>
-    {% include blog-entries.html %}
+    <div class="row mb-4">
+      <div class="col-lg-10 mx-auto gsap-reveal-hero">
+        <p><strong>Burraco: la Sfida</strong> is a multiplayer mobile game based on the Italian card game Burraco.
+          At WhatWapp, I worked on the game from 2018 to 2025, progressing to Senior Game Developer and contributing
+          to client-side systems, gameplay features, and live operations for more than 300,000 monthly active users.
+          The projects below highlight some of those contributions.</p>
+      </div>
+    </div>
+    {% assign burraco_posts = site.posts | where: 'portfolio_category', 'burraco' %}
+    {% include blog-entries.html posts=burraco_posts %}
+  </div>
+</div>
+
+<!-- Tech Art-->
+<div class="untree_co-section" id="tech-art-tools-section">
+  <div class="container">
+    <div class="row mb-3">
+      <div class="col-lg-7 text-center mx-auto">
+        <h2 class="section-heading gsap-reveal-hero mb-0">
+          <strong>Tech Art</strong>
+        </h2>
+        <div class="wave gsap-reveal-hero">
+          <svg>
+            <path d="M10,10 L50,100 L90,50"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col-lg-10 mx-auto gsap-reveal-hero">
+        <p>A collection of personal projects exploring the intersection of code and art. Each project is an opportunity
+          to experiment with new techniques and turn technical ideas into visually polished, interactive results.</p>
+      </div>
+    </div>
+    {% assign tools_posts = site.posts | where: 'portfolio_category', 'tech-art' %}
+    {% include blog-entries.html posts=tools_posts %}
+  </div>
+</div>
+
+<!-- Past Projects -->
+<div class="untree_co-section" id="past-projects-section">
+  <div class="container">
+    <div class="row mb-3">
+      <div class="col-lg-7 text-center mx-auto">
+        <h2 class="section-heading gsap-reveal-hero mb-0">
+          <strong>Past Projects</strong>
+        </h2>
+        <div class="wave gsap-reveal-hero">
+          <svg>
+            <path d="M10,10 L50,100 L90,50"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    {% assign past_posts = site.posts | where: 'portfolio_category', 'past-projects' %}
+    {% include blog-entries.html posts=past_posts %}
   </div>
 </div>
 
@@ -77,8 +132,8 @@ title: Alessandro's Portfolio
         </div>
       </div>
     </div>
-        <div class="gsap-reveal-hero">
-    {% include education-list.html %}
+    <div class="gsap-reveal-hero">
+      {% include education-list.html %}
     </div>
   </div>
 </div>

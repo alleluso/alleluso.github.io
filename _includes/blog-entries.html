@@ -1,6 +1,7 @@
 <div class="row">
   <div class="col-lg-12 gsap-reveal-hero">
-    {% for post in site.posts %}
+    {% assign entries = include.posts | default: site.posts %}
+    {% for post in entries %}
     <div>
       <a href="{{ post.url }}" class="blog-entry-link">
         <div class="row blog-entry align-items-stretch {{ site.data.post-type[post.type].style }}" {% if forloop.last %}style="margin-bottom: 0;" {% endif %}>
@@ -17,7 +18,7 @@
                   {{ post.title }}
                 </h4>
                 <div class="engine-icons">
-                    {% if post.project and post.project != 'none' %}
+                  {% if post.project and post.project != 'none' %}
                   <img src="{{ site.data.project[post.project].icon | relative_url }}" alt="{{ site.data.project[post.project].name }}" title=" Part of {{ site.data.project[post.project].name }}" class="project-icon-post">
                   {% endif %}
                   {% for software in post.software %}

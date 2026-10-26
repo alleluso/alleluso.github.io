@@ -1,9 +1,10 @@
 ---
 title: "Adventure"
-date: 2024-01-01
+date: 2025-01-01
 image: "adventure/entry.jpg"
 type: "tech"
 project: "burraco"
+portfolio_category: "burraco"
 software:
 - unity
 excerpt: "Showcase of the time-limited single-player Adventure event in Burraco. Progress through procedurally generated worlds by spending Steps and Coins, overcoming levels for exclusive rewards. Features dynamic map generation, modular tiles, and flexible progression tailored for engaging, replayable gameplay."
@@ -48,16 +49,13 @@ excerpt: "Showcase of the time-limited single-player Adventure event in Burraco.
 <div class="row align-items-center">
   <div class="col-lg-4">
     <div class="image-container">
-      <div id="adventureGallery" class="carousel slide" data-ride="carousel" data-interval="5000" data-pause="false"
-        style="pointer-events: none;">
+      <div id="adventureGallery" class="carousel slide" data-ride="carousel" data-interval="5000" data-pause="false" style="pointer-events: none;">
         <div class="carousel-inner" style="overflow: hidden;">
           <div class="carousel-item active">
-            <img src="{{ '/assets/images/adventure/map.jpg' | relative_url }}" class="d-block w-100"
-              alt="Adventure Map 1" style="object-fit: cover;">
+            <img src="{{ '/assets/images/adventure/map.jpg' | relative_url }}" class="d-block w-100" alt="Adventure Map 1" style="object-fit: cover;">
           </div>
           <div class="carousel-item">
-            <img src="{{ '/assets/images/adventure/tiles.jpg' | relative_url }}" class="d-block w-100"
-              alt="Adventure Map 2" style="object-fit: cover;">
+            <img src="{{ '/assets/images/adventure/tiles.jpg' | relative_url }}" class="d-block w-100" alt="Adventure Map 2" style="object-fit: cover;">
           </div>
         </div>
       </div>
@@ -66,8 +64,8 @@ excerpt: "Showcase of the time-limited single-player Adventure event in Burraco.
 
   <div class="col-lg-8">
     <p>One of the key requirements outlined in the Game Design Document (GDD) was the ability to remotely
-        configure both the number of steps a user must complete in each world, as well as the total
-        length of the map. This
+      configure both the number of steps a user must complete in each world, as well as the total
+      length of the map. This
       flexibility was essential to tailor the experience and balance progression for different user segments.
       For example,
       User A might encounter three worlds with three steps each, while User B could progress through two
@@ -82,7 +80,8 @@ excerpt: "Showcase of the time-limited single-player Adventure event in Burraco.
       Tiles are reusable segments of road that could be arranged to form a continuous, coherent path. The only
       constraint I introduced
       was that all tiles within the same world must share a consistent graphical border. This made arbitrary
-      rearrangement possible.</p>
+      rearrangement possible.
+    </p>
 
     <p>I structured each world to consist of a start tile, an end tile, and an indefinite number of middle and
       connector tiles.
@@ -93,7 +92,7 @@ excerpt: "Showcase of the time-limited single-player Adventure event in Burraco.
       and procedurally assemble the appropriate tile sequence. Once the layout is generated, a spline is
       created to represent the road connecting all steps.
       By using ScriptableObjects, I ensured the system could support dynamic updates via AssetBundles or
-        Addressables,
+      Addressables,
       allowing for rapid iteration and easy deployment of new map environments.
     </p>
   </div>
